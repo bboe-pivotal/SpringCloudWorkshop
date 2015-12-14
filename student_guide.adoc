@@ -4,9 +4,9 @@ Student Guide
 
 == Instructor Details
 
-Bjorn Boe +
-Senior Field Engineer - Pivotal +
-bboe@pivotal.io
+Chris DeLashmutt +
+Advisory Field Engineer - Pivotal +
+cdelashmutt@pivotal.io
 
 == Schedule
 
