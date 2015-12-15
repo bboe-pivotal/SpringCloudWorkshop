@@ -13,7 +13,9 @@ NOTE: The completed code for this lab can be found at `$COURSE_HOME/session_03/l
 $ cd $COURSE_HOME/session_03/lab_05/initial/cities
 ----
 
-. Optionally generate project files for your favorite IDE by running +./gradlew idea+ or +./gradlew eclipse+. Then open the project in your editor or IDE of choice.  For STS, make sure to have the Gradle plugin installed.  Click on the "Help" -> "Dashboard" and then click the "Manage IDE Extensions" button to find the dialog to install the Gradle plugin.
+. Optionally generate project files for your favorite IDE by running +./gradlew idea+ or +./gradlew eclipse+. Then open the project in your editor or IDE of choice.  
++
+For STS, make sure to have the Gradle plugin installed.  Click on the "Help" -> "Dashboard" and then click the "Manage IDE Extensions" button to find the dialog to install the Gradle plugin.
 
 . Add a runtime dependency on the http://hsqldb.org/[HyperSQL in-memory database] to +build.gradle+:
 +
