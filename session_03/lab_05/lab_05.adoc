@@ -113,7 +113,7 @@ public interface CityRepository extends PagingAndSortingRepository<City, Long> {
 @SpringBootApplication
 @EnableJpaRepositories // <---- Add this
 @Import(RepositoryRestMvcConfiguration.class) // <---- And this
-public class Application {
+public class CityApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
