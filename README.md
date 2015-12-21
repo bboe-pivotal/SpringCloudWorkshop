@@ -1,6 +1,6 @@
 # Cloud Native Application Architectures with Spring and Cloud Foundry
 
-##Student Guide
+## Student Guide
 
 ### Instructor Details
 
@@ -8,21 +8,40 @@
 + Advisory Field Engineer - Pivotal 
 + cdelashmutt@pivotal.io
 
-##Schedule
+## Prework
 
-This is a _loose_ schedule for the day. We will adjust as necessary based on our pace through the material.
+1. Ensure you have both gradle and git installed on your laptop
+    *  [Gradle](http://gradle.org/gradle-download/)
+    *  [Git](http://git-scm.com/downloads)  
 
-The lectures for this class are intentionally very light and are only intended to set the stage for the hands-on labs.
-The overwhelming majority of our time will be spent engaging with the technology directly!
-
-
-Start by downloading the course materials.  This can be accomplished either through the GitHub website or if you have Git installed, use the following commands:
+2. Start by downloading the course materials.  
 
 ```
 $ git clone https://github.com/bboe-pivotal/SpringCloudWorkshop
 $ cd SpringCloudWorkshop/
 $ git fetch --all
 ```
+
+3. Download needed dependencies
+
+```
+cd $COURSE_HOME/session_01/lab_01/spring-music
+./gradlew assemble
+cd $COURSE_HOME/session_03/lab_05/initial/cities
+./gradlew assemble
+cd $COURSE_HOME/session_03/lab_06/initial/cities
+./gradlew assemble
+cd $COURSE_HOME/session_04/lab_07/initial/hello-spring-boot
+./gradlew assemble
+```
+
+## Schedule
+
+This is a _loose_ schedule for the day. We will adjust as necessary based on our pace through the material.
+
+The lectures for this class are intentionally very light and are only intended to set the stage for the hands-on labs.
+The overwhelming majority of our time will be spent engaging with the technology directly!
+
 
 ## Agenda
 
@@ -46,7 +65,7 @@ $ git fetch --all
   * [Lab 5 - Build a Hypermedia-Driven RESTful Web Service with Spring Data REST](session_03/lab_05/lab_05.adoc)
   * [Lab 6 - Leveraging Spring Cloud Connectors for Service Binding](session_03/lab_06/lab_06.adoc)
 * [Session 4](session_04/Session_04.pdf)
-  * [Lab 7 - Introspection, Monitoring, and Metrics using Spring Boot Actuator](session_04/lab_07/lab_07.adoc)
+  * [Lab 7 - Introspection, Monitoring, and Metrics using Spring Boot Actuator](session_04/lab_07/lab_07.md)
 * [Session 5](session_05/Session_05.pdf)
   * [Lab 8 - Binding Spring Cloud Services](session_05/lab_08/lab_08.adoc)
   * [Lab 9 - Service Registry](session_05/lab_09/lab_09.adoc)
