@@ -28,7 +28,7 @@ $ ./gradlew build
 + Run the application:
 
 ```
-$ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+$ java -jar build/libs/hello-spring-boot-0.0.1-SNAPSHOT.jar
 ```
 
 + Try out the following endpoints. The output is omitted here because it can be quite large:
@@ -47,7 +47,7 @@ Spring Boot provides an endpoint (http://localhost:8080/info) that allows the ex
 
 One thing that it does well is expose information about the specific build and version control coordinates for a given deployment.
 
-+ Add the following plugin to your Maven build.
++ Add the following plugin to 'build.gradle'
 It will add Git branch and commit coordinates to the `/info` endpoint:
 
 ```
@@ -66,7 +66,7 @@ project.tasks.jar.dependsOn('gitprops')
 ```
 
 
-+ Add the following properties to `src/main/resources/application.yml`:
++ Add the following properties to `src/main/resources/application.yml` ahead of the '---':
 
 ```
 info:
