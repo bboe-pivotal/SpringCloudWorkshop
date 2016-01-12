@@ -4,20 +4,23 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
 
+version = '0.0.1-SNAPSHOT'
+description = 'Hello Spring Boot'
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
 
 jar {
-    baseName = 'cities'
-    version = '0.0.1-SNAPSHOT'
+    baseName = 'hello-spring-boot'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -26,14 +29,9 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-data-rest")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
     testCompile("org.springframework.boot:spring-boot-starter-test")
-    runtime("org.hsqldb:hsqldb")
 }
 
 eclipse {
@@ -46,3 +44,4 @@ eclipse {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.9'
 }
+

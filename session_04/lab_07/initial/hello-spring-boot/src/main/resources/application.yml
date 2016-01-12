@@ -6,3 +6,5 @@ spring:
   profiles: spanish
 
 greeting: Hola
+
+
