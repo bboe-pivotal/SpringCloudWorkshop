@@ -17,7 +17,7 @@
 2. Start by downloading the course materials.  
 
 ```
-$ git clone https://github.com/bboe-pivotal/SpringCloudWorkshop
+$ git clone https://github.com/cdelashmutt-pivotal/SpringCloudWorkshop
 $ cd SpringCloudWorkshop/
 $ git fetch --all
 ```
