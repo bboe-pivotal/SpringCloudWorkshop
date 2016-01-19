@@ -41,7 +41,7 @@ $ java -jar build/libs/hello-spring-boot-0.0.1-SNAPSHOT.jar
 + http://localhost:8080/dump:: Performs a thread dump.
 + http://localhost:8080/trace:: Displays trace information (by default the last few HTTP requests).
 
-++ Build and Version Control Info
+## Build and Version Control Info
 
 Spring Boot provides an endpoint (http://localhost:8080/info) that allows the exposure of arbitrary metadata.
 
@@ -114,7 +114,7 @@ $ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
 }
 ```
 
-++ Health Indicators
+## Health Indicators
 
 Spring Boot provides an endpoint (http://localhost:8080/health) that allows for the notion of various health indicators.
 
