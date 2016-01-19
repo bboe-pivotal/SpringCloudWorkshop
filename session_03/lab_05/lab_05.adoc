@@ -38,6 +38,9 @@ dependencies {
 +
 [source,java]
 ----
+import javax.persistence.*;
+import java.io.Serializable;
+
 @Entity
 @Table(name="city")
 public class City implements Serializable {
