@@ -92,7 +92,7 @@ $ ./gradlew build
 
 + Run the application:
 ```
-$ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+$ java -jar build/libs/hello-spring-boot-0.0.1-SNAPSHOT.jar
 ```
 
 + Visit the application in the browser (http://localhost:8080/info), and verify that the output is similar to the following:
@@ -158,7 +158,7 @@ $ ./gradlew build
 
 + Run the application:
 ```
-$ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+$ java -jar build/libs/hello-spring-boot-0.0.1-SNAPSHOT.jar
 ```
 
 + Visit the application in the browser (http://localhost:8080/health), and verify that the output is similar to the following (and changes randomly!):
@@ -230,7 +230,7 @@ $ ./gradlew build
 
 + Run the application:
 ```
-$ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+$ java -jar build/libs/hello-spring-boot-0.0.1-SNAPSHOT.jar
 ```
 
 + Visit the application in the browser (http://localhost:8080) and refresh the page several times.
