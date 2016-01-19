@@ -1,13 +1,11 @@
 package io.pivotal.helloui.controller;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import io.pivotal.helloui.domain.HelloResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @Component
 public class SayHelloCommand {
