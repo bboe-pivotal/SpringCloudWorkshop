@@ -66,9 +66,15 @@ The overwhelming majority of our time will be spent engaging with the technology
 * [Session 4](session_04/Session_04.pdf)
   * [Lab 7 - Introspection, Monitoring, and Metrics using Spring Boot Actuator](session_04/lab_07/lab_07.md)
 * [Session 5](session_05/Session_05.pdf)
-  * [Lab 8 - Binding Spring Cloud Services](session_05/lab_08/lab_08.adoc)
-  * [Lab 9 - Service Registry](session_05/lab_09/lab_09.adoc)
-  * [Lab 10 - Config Server](session_05/lab_10/lab_10.adoc)
-  * [Lab 11 - Circuit Breaker Dashboard](session_05/lab_11/lab_11.adoc)
-
-
+  * Lab 8 - Binding Spring Cloud Services
+    * [Lab 8 - With SCS Tile](session_05/lab_08/lab_08.adoc)
+    * [Lab 8 - Without SCS Tile](session_05/lab_08/lab_08_no_scs.adoc)
+  * Lab 9 - Service Registry
+    * [Lab 9 - With SCS Tile](session_05/lab_09/lab_09.adoc)
+    * [Lab 9 - Without SCS Tile](session_05/lab_09/lab_09_no_scs.adoc)
+  * Lab 10 - Config Server
+    * [Lab 10 - With SCS Tile](session_05/lab_10/lab_10.adoc)
+    * [Lab 10 - Without SCS Tile](session_05/lab_10/lab_10_no_scs.adoc)
+  * Lab 11 - Circuit Breaker Dashboard
+    * [Lab 11 - With SCS Tile](session_05/lab_11/lab_11.adoc)
+    * [Lab 11 - Without SCS Tile](session_05/lab_11/lab_11_no_scs.adoc)
