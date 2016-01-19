@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/bin/bash
 # 
 # This script requires bash 4! Upgrade!
 #
@@ -15,16 +15,11 @@
 # cf create-security-group development-security-group ./development-security-group.json
 
 org=PCF-Training
-declare -A space
+declare space
 
 echo `date` > org_summary.txt
 for email in `cat class-participant-emails.txt` ; do
 	space=`echo $email | tr '_.' "\n" | egrep -v com | colrm 2 | tr -d "\n"`
-
-	if [[ ${spaces[$space]} -eq 1 ]]; then 
-		space=$space"1"
-	fi
-	space[$space]=1
 
 	echo "INFO: Setting up $space: for $email"
 	
