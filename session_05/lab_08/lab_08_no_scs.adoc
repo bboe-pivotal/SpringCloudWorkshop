@@ -1,0 +1,169 @@
+:compat-mode:
+= Lab 8 - Binding to Spring Cloud (without Spring Cloud Services) 
+
+[abstract]
+--
+
+--
+
+
+== Creating Service Instances for Hello World Spring Cloud Demo Application
+
+. First, build all the applications.
++
+----
+$./mvnw package
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] Hello World Cloud Native Demo!
+[INFO] hello-server
+[INFO] hello-ui
+[INFO] hello-eureka
+[INFO] hello-config-server
+[INFO] hello-hystrix-dashboard
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Hello World Cloud Native Demo! 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+
+...
+
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] Hello World Cloud Native Demo! ..................... SUCCESS [  0.828 s]
+[INFO] hello-server ....................................... SUCCESS [  7.884 s]
+[INFO] hello-ui ........................................... SUCCESS [  9.547 s]
+[INFO] hello-eureka ....................................... SUCCESS [  0.369 s]
+[INFO] hello-config-server ................................ SUCCESS [  0.470 s]
+[INFO] hello-hystrix-dashboard ............................ SUCCESS [  0.349 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 20.690 s
+[INFO] Finished at: 2016-01-18T22:21:49-05:00
+[INFO] Final Memory: 35M/577M
+[INFO] ------------------------------------------------------------------------
+----
+
+. Now, we need to push the Eureka server, Configuration server, and Hystrix Dashboard applications to Cloud Foundry.  This will take some time.
++
+----
+$cf push -f manifest-services.yml
+Using manifest file manifest-services.yml
+
+Creating app config-server in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
+OK
+
+Creating route config-server-unsolicited-curator.cf.grogscave.net...
+OK
+
+Binding config-server-unsolicited-curator.cf.grogscave.net to config-server...
+OK
+
+Uploading config-server...
+
+...
+
+requested state: started
+instances: 1/1
+usage: 384M x 1 instances
+urls: hystrix-dashboard-minuscular-jester.cf.grogscave.net
+last uploaded: Tue Jan 19 03:33:08 UTC 2016
+stack: cflinuxfs2
+
+     state     since                    cpu    memory           disk           details   
+#0   running   2016-01-18 10:34:24 PM   0.0%   148.2M of 384M   169.5M of 1G      
+----
+
+. Notice in your output of the push of the services, they were bound to random host names to prevent collisions between students.  We need to now create user provided services for the Eureka service registry, and the Configuration server.
+.. The script below can be used on Linux or Mac computers.
++
+----
+$./create-udfs.sh
+Creating user provided service config-server in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
+OK
+Creating user provided service service-registry in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
+OK
+----
++
+.. If you are on Windows, you need to lookup the service host names, and create the User Defined Services manually.  Use the text below as a guide, but you will need to modify the uri component to match your service urls.
++
+----
+$cf apps
+Getting apps in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
+OK
+
+name                requested state   instances   memory   disk   urls   
+config-server       started           1/1         384M     1G     config-server-unsolicited-curator.cf.grogscave.net   
+hystrix-dashboard   started           1/1         384M     1G     hystrix-dashboard-minuscular-jester.cf.grogscave.net   
+service-registry    started           1/1         384M     1G     service-registry-aphorismic-farmery.cf.grogscave.net   
+
+$cf cups config-server -p '{"uri":"http://config-server-unsolicited-curator.cf.grogscave.net"}'
+Creating user provided service config-server in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
+OK
+
+$cf cups service-registry -p '{"uri":"http://service-registry-aphorismic-farmery.cf.grogscave.net"}'
+Creating user provided service service-registry in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
+OK
+----
+
+== Push the applications
+
+. Open the manifest-apps.yml file.  Notice the application names and the service bindings.
++
+----
+---
+memory: 1GB
+instances: 1
+applications:
+- name: hello-server
+  host: hello-server-${random-word}
+  path: hello-server/target/hello-server-0.0.1-SNAPSHOT.jar
+  services:
+  - service-registry
+  - config-server
+- name: hello-ui
+  host: hello-ui-${random-word}
+  path: hello-ui/target/hello-ui-0.0.1-SNAPSHOT.jar
+  services:
+  - service-registry
+  - config-server
+----
+.  Push the applications
++
+----
+$cf push -f manifest-apps.yml
+Using manifest file manifest-apps.yml
+
+Creating app hello-server in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
+OK
+
+Creating route hello-server-expansive-toluate.cf.grogscave.net...
+OK
+
+Binding hello-server-expansive-toluate.cf.grogscave.net to hello-server...
+OK
+
+Uploading hello-server...
+
+...
+
+
+requested state: started
+instances: 1/1
+usage: 1G x 1 instances
+urls: hello-ui-nonerroneous-whipping.cf.grogscave.net
+last uploaded: Tue Jan 19 03:48:38 UTC 2016
+stack: cflinuxfs2
+
+     state     since                    cpu    memory    disk      details   
+#0   running   2016-01-18 10:50:12 PM   0.0%   0 of 1G   0 of 1G      
+----
+
+. Verify that the applications visiting the URL for the hello-ui application and testing it out.
+
+image::../../Common/images/lab8screenshot4.png[]
+
