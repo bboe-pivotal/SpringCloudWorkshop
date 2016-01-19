@@ -30,6 +30,8 @@
     ./gradlew assemble
     cd $COURSE_HOME/session_04/lab_07/initial/hello-spring-boot
     ./gradlew assemble
+    cd $COURSE_HOME/session_05/lab_08/hello-world
+    ./mvnw package
     ```
 
 ## Schedule
