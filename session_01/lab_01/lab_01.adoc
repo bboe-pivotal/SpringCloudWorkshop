@@ -2,14 +2,14 @@
 
 == Target
 
-. If you haven't already, download the latest release of the Cloud Foundry CLI from https://github.com/cloudfoundry/cli/releases for your operating system and install it.
+. If you haven't already, download the latest release of the Cloud Foundry CLI from https://apps.pcf12.cloud.fe.pivotal.io/tools for your operating system and install it.
 
 . Ask your instructor to provide you with a username and password to use when connecting to Pivotal Cloud Foundry.
 
 . Set the API target for the CLI.  Note that your endpoint may be different than the below.  Check with your instructor for the correct value to use throughout today's workshop.  In larger workshops, some may use a different Cloud Foundry instance than others.
 +
 ----
-$ cf api --skip-ssl-validation https://api.pcf5.cloud.fe.pivotal.io
+$ cf api --skip-ssl-validation https://api.pcf12.cloud.fe.pivotal.io
 ----
 
 . Login to Pivotal Cloud Foundry:
@@ -20,7 +20,7 @@ $ cf login
 +
 Follow the prompts, choosing the development space.
 
-. Throughout the labs, you will see reference to the Pivotal Cloud Foundry Apps Manager.  This user interface to Cloud Foundry makes it much easier to visualize what applications you are running, scale them, view their logs, bind services, etc.  You can access this UI at any time by opening https://apps.pcf5.cloud.fe.pivotal.io in a browser (replace the pcfX portion of this hostname with the appropriate value for the host you've been assigned for the workshop) and logging in with your username and password.  It may be helpful to bookmark this URL for the duration of the workshop.
+. Throughout the labs, you will see reference to the Pivotal Cloud Foundry Apps Manager.  This user interface to Cloud Foundry makes it much easier to visualize what applications you are running, scale them, view their logs, bind services, etc.  You can access this UI at any time by opening https://apps.pcf12.cloud.fe.pivotal.io in a browser (replace the pcfX portion of this hostname with the appropriate value for the host you've been assigned for the workshop) and logging in with your username and password.  It may be helpful to bookmark this URL for the duration of the workshop.
 
 
 == Build and Push!
