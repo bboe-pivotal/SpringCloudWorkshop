@@ -345,7 +345,7 @@ Unlike the previous application, this application runs inside of a PCF Windows C
 
 == Clean Up
 
-Issue the following commands to delete the cities application and its database.
+Issue the following commands to delete the bookservice application and its database.
 
 . Delete the `bookservice` application:
 +
