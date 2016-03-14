@@ -8,19 +8,27 @@ Joel Rolfe +
 Senior Platform Architect - Pivotal +
 jrolfe@pivotal.io +
 
-Matt Gunter +
-Senior Platform Architect - Pivotal +
-mgunter@pivotal.io +
+Chris DeLashmutt +
+Advisory Platform Architect - Pivotal +
+cdelashmutt@pivotal.io +
 
 == Also From Pivotal
+
+James Williams +
+Director, Platform Architects - Pivotal +
+nsanfratello@pivotal.io
+
+Michael Wright +
+Manager, Platform Architects - Pivotal +
+mwright@pivotal.io
 
 Nicholas Sanfratello +
 Senior Platform Architect - Pivotal +
 nsanfratello@pivotal.io
 
-Anthony Barkley +
+Russ West +
 Account Executive - Pivotal +
-abarkley@pivotal.io
+wwest@pivotal.io
 
 == Schedule
 
