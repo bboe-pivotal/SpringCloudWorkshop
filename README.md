@@ -1,7 +1,5 @@
 # Cloud Native Application Architectures with Cloud Foundry
 
-## Student Guide
-
 ## Prework
 
 1. Windows or Mac OSX 
@@ -26,3 +24,7 @@
 2.  Visual Studio, if you plan to try any of the .NET content.
  
 3.  ASP.NET 5 - at least one of the labs will be done using ASP.NET 5.  A completed version of this lab will be available/usable for those that don't want to install ASP.NET 5, and just want to review/push the code to Cloud Foundry.
+
+## Student Guide
+
+You can view teh student guide for the class at (student_guide.adoc)
