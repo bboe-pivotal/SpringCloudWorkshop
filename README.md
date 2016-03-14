@@ -27,4 +27,4 @@
 
 ## Student Guide
 
-You can view teh student guide for the class at (student_guide.adoc)
+You can view the student guide for the class [here](student_guide.adoc).
