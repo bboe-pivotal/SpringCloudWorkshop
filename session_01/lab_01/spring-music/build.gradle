@@ -63,7 +63,7 @@ dependencies {
     // Spring Data
     compile 'org.springframework.data:spring-data-jpa:1.5.2.RELEASE'
     compile 'org.springframework.data:spring-data-redis:1.2.1.RELEASE'
-    compile 'org.springframework.data:spring-data-mongodb:1.4.2.RELEASE'
+    compile 'org.springframework.data:spring-data-mongodb:1.8.2.RELEASE'
 
     // JPA Persistence
     compile "commons-dbcp:commons-dbcp:1.2.2"

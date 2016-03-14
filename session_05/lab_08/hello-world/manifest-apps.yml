@@ -1,5 +1,5 @@
 ---
-memory: 1GB
+memory: 448MB
 instances: 1
 applications:
 - name: hello-server
