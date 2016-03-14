@@ -13,10 +13,9 @@ NOTE: The completed code for this lab can be found at `$COURSE_HOME/session_03/l
 $ cd $COURSE_HOME/session_03/lab_05/initial/cities
 ----
 
-. Optionally generate project files for your favorite IDE by running +./gradlew idea+ or +./gradlew eclipse+. Then open the project in your editor or IDE of choice.  
+. Throughout the rest of today's labs, we'll often be writing code.  You can always edit source code files directly in your favorite text editor, but in the real world, you'd want to import these projects into a real development environment like Eclipse/RAD or IntelliJ.  Fortunately, its easy to do this.  You can generate project files for your favorite IDE by running going to the root project directory and running +gradlew.bat eclipse+ or +gradlew.bat idea+. When this command is completed, you can use the import existing project function of your editor, point it at the same directory you ran the gradle command in, and bring in all of the necessary files to edit within the IDE.
 +
-For STS, make sure to have the Gradle plugin installed.  Click on the "Help" -> "Dashboard" and then click the "Manage IDE Extensions" button to find the dialog to install the Gradle plugin.
-
+So, for the next steps, you can either use a text editor or IDE.
 . Add a runtime dependency on the http://hsqldb.org/[HyperSQL in-memory database] to +build.gradle+:
 +
 [source,groovy]
@@ -29,8 +28,12 @@ buildscript {
 }
 ...
 dependencies {
-    // IN HERE!
-    runtime("org.hsqldb:hsqldb")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    runtime("org.hsqldb:hsqldb") // <-- Add this line
 }
 ----
 
@@ -38,8 +41,15 @@ dependencies {
 +
 [source,java]
 ----
-import javax.persistence.*;
+package org.example.cities.domain;
+
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="city")
@@ -98,12 +108,18 @@ public class City implements Serializable {
 }
 ----
 +
-Notice that we're using JPA annotations on the class and its fields. You'll need to use your IDE's features to add the appropriate import statements.
+Notice that we're using JPA annotations on the class and its fields.
 
 . Create the package +org.example.cities.repositories+ and in that package create the interface +CityRepository+. Paste the following code and add appropriate imports:
 +
 [source,java]
 ----
+package org.example.cities.repositories;
+
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.example.cities.domain.City;
+
 @RepositoryRestResource(collectionResourceRel = "cities", path = "cities")
 public interface CityRepository extends PagingAndSortingRepository<City, Long> {
 }
@@ -113,13 +129,21 @@ public interface CityRepository extends PagingAndSortingRepository<City, Long> {
 +
 [source,java]
 ----
+package org.example.cities;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import; // <--- Add this
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories; // <--- Add this
+import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration; // <--- Add this
+
 @SpringBootApplication
 @EnableJpaRepositories // <---- Add this
 @Import(RepositoryRestMvcConfiguration.class) // <---- And this
-public class CityApplication {
+public class CitiesApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(CitiesApplication.class, args);
     }
 }
 ----
@@ -128,7 +152,7 @@ public class CityApplication {
 +
 [source,bash]
 ----
-$ ./gradlew assemble
+$ gradlew.bat assemble
 ----
 
 . Run the application:
@@ -138,19 +162,15 @@ $ ./gradlew assemble
 $ java -jar build/libs/cities-0.0.1-SNAPSHOT.jar
 ----
 
-. Access the application using +curl+. You'll see that the primary endpoint automatically exposes the ability to page, size, and sort the response JSON.
+. Access the application using +Firefox+ (Note that for the lab on 2/23, the proxy settings on Internet Explorer prevent accessing localhost, so you must use Firefox). You'll see that the primary endpoint automatically exposes the ability to page, size, and sort the response JSON.
 +
 So what have you done? Created four small classes and one build file, resulting in a fully-functional REST microservice. The application's +DataSource+ is created automatically by Spring Boot using the in-memory database because no other +DataSource+ was detected in the project.
 +
+Note: By default Firefox will prompt you to download responses.  Its much nicer to view responses directly in the browser.  To do so, search for and add the JSONView plugin to firefox.  Then, got to the extensions page (`ctrl+alt+a`), find the JSONView extension and go to options.  There you can add _Alternate JSON content types_ that should be opened by the extension.  Add `application/hal+json` to this list.  After that, instead of prompting to download, Firefox will display json directly in the browser.
++
 [source,bash]
 ----
-$ curl -i localhost:8080/cities
-HTTP/1.1 200 OK
-Server: Apache-Coyote/1.1
-X-Application-Context: application
-Content-Type: application/hal+json
-Transfer-Encoding: chunked
-Date: Tue, 27 May 2014 19:34:45 GMT
+http://localhost:8080/cities
 
 {
   "_links" : {
@@ -178,7 +198,7 @@ Next we'll import some data.
 +
 [source,bash]
 ----
-$ ./gradlew assemble
+$ gradlew.bat assemble
 ----
 
 . Run the application:
@@ -188,17 +208,11 @@ $ ./gradlew assemble
 $ java -jar build/libs/cities-0.0.1-SNAPSHOT.jar
 ----
 
-. Access the application again using +curl+. Notice the appropriate hypermedia is included for +next+, +previous+, and +self+. You can also select pages and page size by utilizing +?size=n&page=n+ on the URL string. Finally, you can sort the data utilizing +?sort=fieldName+.
+. Access the application again using +firefox+. Notice the appropriate hypermedia is included for +next+, +previous+, and +self+. You can also select pages and page size by utilizing +?size=n&page=n+ on the URL string. Finally, you can sort the data utilizing +?sort=fieldName+.
 +
 [source,bash]
 ----
-$ curl -i localhost:8080/cities
-HTTP/1.1 200 OK
-Server: Apache-Coyote/1.1
-X-Application-Context: application
-Content-Type: application/hal+json
-Transfer-Encoding: chunked
-Date: Tue, 27 May 2014 19:59:58 GMT
+localhost:8080/cities
 
 {
   "_links" : {
@@ -250,13 +264,13 @@ Date: Tue, 27 May 2014 19:59:58 GMT
 }
 ----
 
-. Try the following +curl+ statements to see how the application behaves:
+. Try the following urls  to see how the application behaves:
 +
 [source,bash]
 ----
-$ curl -i "localhost:8080/cities?size=5"
-$ curl -i "localhost:8080/cities?size=5&page=3"
-$ curl -i "localhost:8080/cities?sort=postalCode,desc"
+localhost:8080/cities?size=5
+localhost:8080/cities?size=5&page=3
+localhost:8080/cities?sort=postalCode,desc
 ----
 +
 Next we'll add searching capabilities.
@@ -279,12 +293,22 @@ Page<City> findByStateCodeIgnoreCase(@Param("q") String stateCode, Pageable page
 @RestResource(path = "postalCode", rel = "postalCode")
 Page<City> findByPostalCode(@Param("q") String postalCode, Pageable pageable);
 ----
+. Also, add these imports:
++
+[source,java]
+----
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
+----
 
 . Build the application:
 +
 [source,bash]
 ----
-$ ./gradlew assemble
+$ gradlew.bat assemble
 ----
 
 . Run the application:
@@ -294,17 +318,11 @@ $ ./gradlew assemble
 $ java -jar build/libs/cities-0.0.1-SNAPSHOT.jar
 ----
 
-. Access the application again using +curl+. Notice that hypermedia for a new +search+ endpoint has appeared.
+. Access the application again from Firefox. Notice that hypermedia for a new +search+ endpoint has appeared.
 +
 [source,bash]
 ----
-$ curl -i "localhost:8080/cities"
-HTTP/1.1 200 OK
-Server: Apache-Coyote/1.1
-X-Application-Context: application
-Content-Type: application/hal+json
-Transfer-Encoding: chunked
-Date: Tue, 27 May 2014 20:33:52 GMT
+localhost:8080/cities
 
 {
   "_links" : {
@@ -326,13 +344,7 @@ Date: Tue, 27 May 2014 20:33:52 GMT
 +
 [source,bash]
 ----
-$ curl -i "localhost:8080/cities/search"
-HTTP/1.1 200 OK
-Server: Apache-Coyote/1.1
-X-Application-Context: application
-Content-Type: application/hal+json
-Transfer-Encoding: chunked
-Date: Tue, 27 May 2014 20:38:32 GMT
+localhost:8080/cities/search
 
 {
   "_links" : {
@@ -362,9 +374,9 @@ Note that we now have new search endpoints for each of the finders that we added
 +
 [source,bash]
 ----
-$ curl -i "http://localhost:8080/cities/search/postalCode?q=00623"
-$ curl -i "http://localhost:8080/cities/search/name?q=Boston"
-$ curl -i "http://localhost:8080/cities/search/nameContains?q=Fort&size=1"
+http://localhost:8080/cities/search/postalCode?q=00623
+http://localhost:8080/cities/search/name?q=Boston
+http://localhost:8080/cities/search/nameContains?q=Fort&size=1
 ----
 
 == Pushing to Cloud Foundry
@@ -411,5 +423,5 @@ urls: cities-undeliverable-iatrochemistry.cf.mycloud.com
 +
 [source,bash]
 ----
-$ curl -i cities-undeliverable-iatrochemistry.cf.mycloud.com/cities
+cities-undeliverable-iatrochemistry.cf.mycloud.com/cities
 ----

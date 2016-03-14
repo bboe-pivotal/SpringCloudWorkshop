@@ -1,5 +1,126 @@
 :compat-mode:
-= Lab 11 - The Circuit Breaker Dashboard
+= Lab 10 - Circuit Breakers
+
+[abstract]
+Cloud-native architectures are typically composed of multiple layers of distributed services. End-user requests may comprise multiple calls to these services, and if a lower-level service fails, the failure can cascade up to the end user and spread to other dependent services. Heavy traffic to a failing service can also make it difficult to repair. Using Circuit Breakers, along with the Cloud Foundry Circuit Breaker Dashboard, you can prevent failures from cascading and provide fallback behavior until a failing service is restored to normal operation.
+--
+
+--
+
+== Configuring the Circuit Breaker Dashboard
+
+. First, we need an instance of the Circuit Breaker Dashboard service.
++
+----
+$ cf create-service p-circuit-breaker-dashboard standard circuit-breaker
+Creating service instance config-server in org student20-org / space development as student20...
+OK
+----
+
+. To finish the PCF configuration, add the circuit breaker service to the manifest.yml for the UI microservice, as we have done for the other SCS services in previous labs. Remember to check your values for the CF_TARGET environment variables for both applications.
++
+----
+---
+memory: 1GB
+instances: 1
+applications:
+- name: hello-server
+  host: hello-server-${random-word}
+  path: hello-server/build/libs/hello-server-0.0.1-SNAPSHOT.jar
+  services:
+  - service-registry
+  - config-server
+  env:
+    CF_TARGET: https://api.pcf5.cloud.fe.pivotal.io
+- name: hello-ui
+  host: hello-ui-${random-word}
+  path: hello-ui/build/libs/hello-ui-0.0.1-SNAPSHOT.jar
+  services:
+  - service-registry
+  - config-server
+  - circuit-breaker     #Add this line
+  env:
+    CF_TARGET: https://api.pcf5.cloud.fe.pivotal.io
+----
++
+. Now let's enable the Circuit Breaker pattern for our UI service.  We want to use a circuit breaker to provide a barrier around failures within the Hello Service.
+Start by going to the hello-ui project, and editing the `io.pivotal.helloui.HelloUiApplication` class.  Add the `@EnableCircuitBreaker` annotation.
++
+[source,java]
+----
+package io.pivotal.helloui;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;  // <--- Add this import
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+@SpringBootApplication
+@EnableDiscoveryClient
+@EnableCircuitBreaker  // <--- Add this annotation
+public class HelloUiApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(HelloUiApplication.class, args);
+    }
+}
+----
++
+. Next, let's add a fallback method that surrounds our Hello Service dependency.  Go into `io.pivotal.helloui.controller.SayHelloCommand` and add the `@HystrixCommand` annotation, along with an appropriate fallback method, as shown below.
++
+[source,java]
+----
+package io.pivotal.helloui.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;  // <--- Add this
+
+@Component
+public class SayHelloCommand {
+
+	@Autowired
+	@LoadBalanced
+	RestTemplate restTemplate;
+
+	 @HystrixCommand(fallbackMethod = "sayHelloFallback")   // <--- Add this
+    public String sayHello(String toWho) throws Exception {
+        try{
+        	return restTemplate.getForObject("https://hello-world-server/hello?name={name}", String.class, toWho);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+	public String sayHelloFallback(String toWho) {   // --- Add this method ---
+		return String.format("Come back later to hear me say hello, %s", toWho);
+	}
+}
+----
+
+== Build and Push the applications
+
+. Change to the directory that contains hello-ui and hello-server components.
++
+----
+$ cd $COURSE_HOME/session_05/lab_08/initial
+----
++
+.  Build the applications
++
+----
+$ gradlew.bat assemble
+----
++
+.  Push the applications and tell Cloud Foundry not to start the applications.
++
+----
+$cf push
+----
 
 == Use the Circuit Breaker Dashboard
 
@@ -7,7 +128,7 @@
 +
 image::../../Common/images/lab9screenshot1.png[]
 +
-. Click the "Manage" link under the Circuit Breaker. 
+. Click the "Manage" link under the Circuit Breaker.
 
 . Open the Hello-UI and add some text in the textbox.  You should see the execution counts change.
 +

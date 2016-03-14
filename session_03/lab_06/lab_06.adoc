@@ -49,7 +49,7 @@ Binding service cities-db to app cities...
 OK
 ----
 
-. Next we'll add Spring Cloud and MySQL dependencies to our Gradle build. Comment or remove the +hsqldb+ line add add the following in the +dependencies+ section:
+. Next we'll add Spring Cloud and MySQL dependencies to our Gradle build. Add the following in the +dependencies+ section:
 +
 [source,groovy]
 ----
@@ -61,12 +61,20 @@ dependencies {
 }
 ----
 +
-Since we've added new dependencies, re-run +./gradlew idea+ or +./gradlew eclipse+ to have them added to the IDE classpath.
+Since we've added new dependencies, if you are using Eclipse/RAD or IntelliJ, you'll need to re-run +gradlew.bat idea+ or +gradlew.bat eclipse+ to have them added to the IDE classpath.
 
 . Next, let's create the package +org.example.cities.config+ and create in that package the class +CloudDataSourceConfig+. Add the following code:
 +
 [source,java]
 ----
+package org.example.cities.config;
+
+import javax.sql.DataSource;
+import org.springframework.cloud.config.java.AbstractCloudConfig;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
 @Profile("cloud")
 @Configuration
 public class CloudDataSourceConfig extends AbstractCloudConfig {
@@ -76,8 +84,6 @@ public class CloudDataSourceConfig extends AbstractCloudConfig {
     }
 }
 ----
-+
-As before, have the IDE import the appropriate dependencies.
 +
 The +@Profile+ annotation will cause this class (which becomes Spring configuration when annotated as +@Configuration+) to be added to the configuration set because of the +SPRING_PROFILES_ACTIVE+ environment variable we added earlier. You can still run the application locally (with the default profile) using the embedded database.
 +
@@ -94,7 +100,7 @@ spring.jpa.hibernate.ddl-auto=create
 +
 [source,bash]
 ----
-$ ./gradlew assemble
+$ gradlew.bat assemble
 ----
 
 . Re-push the application:
@@ -108,7 +114,7 @@ $ cf push
 +
 [source,bash]
 ----
-$ curl http://cities-crouse-penance.cfapps.io/env
+$ cf env cities
 ...
 VCAP_SERVICES: "{"p-mysql":[{"name":"cities-db","label":"p-mysql","tags":["mysql","relational"],"plan":"100mb-dev","credentials":{"hostname":"192.168.8.210","port":3306,"name":"cf_c35b685f_00e6_43e9_bed0_67210f562dd9","username":"ru6zHmkfacgv6I3p","password":"cGJArKXEcUPBNXer","uri":"mysql://ru6zHmkfacgv6I3p:cGJArKXEcUPBNXer@192.168.8.210:3306/cf_c35b685f_00e6_43e9_bed0_67210f562dd9?reconnect=true","jdbcUrl":"jdbc:mysql://192.168.8.210:3306/cf_c35b685f_00e6_43e9_bed0_67210f562dd9?user=ru6zHmkfacgv6I3p&password=cGJArKXEcUPBNXer"}}]}",
 ...
@@ -133,12 +139,20 @@ public DataSource dataSource() {
     return connectionFactory().dataSource("cities-db", serviceConfig);
 }
 ----
-
++
+Also, add these imports:
++
+[source,java]
+----
+import org.springframework.cloud.service.PooledServiceConnectorConfig;
+import org.springframework.cloud.service.relational.DataSourceConfig;
+----
++
 . Build the application:
 +
 [source,bash]
 ----
-$ ./gradlew assemble
+$ gradlew.bat assemble
 ----
 
 . Re-push the application:

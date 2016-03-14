@@ -1,0 +1,6 @@
+---
+applications:
+- name: colorservice
+  host: colors-${random-word}
+  path: .
+  buildpack: https://github.com/cloudfoundry-community/asp.net5-buildpack.git

@@ -1,109 +1,103 @@
 :compat-mode:
 = Lab 10 - Using the Config Server
-== Create a GitHub repository to Store Configuration
 
-. Change to the lab directory:
+[abstract]
+Here we continue using the same code, and extend it to use Spring Cloud Config.  Spring Cloud Config provides server and client-side support for externalized configuration in a distributed system. With the Config Server you have a central place to manage external properties for applications across all environments.
+--
+
+--
+
+== Configuring the Config Server
+
+. First, we need an instance of the config server service.
 +
 ----
-$ cd $COURSE_HOME/session_05/lab_10/
+$cf create-service p-config-server standard config-server
+Creating service instance config-server in org student20-org / space development as student20...
+OK
 ----
 
-. Create a directory for the configuration repo:
+. Next we need to configure the config server. Open the Application Manager console and scroll down until you see the Spring Cloud services.  Under the "config-server", click "Manage".
++
+image::../../Common/images/lab8screenshot1.png[]
++
+. You should see a blank page for the Config Server.
++
+image::../../Common/images/lab8screenshot2.png[]
++
+. Ordinarily, you would create a config repository for your application.  We have already done this, so use "https://github.com/jrolfe-pivotal/hello-world-config-repo".
++
+image::../../Common/images/lab8screenshot3.png[]
++
+. Next, we need to tell Cloud Foundry to bind this service instance to each of our applications.  Open the manifest.yml file and add the config-server service you created to each application.  The result will look something like this (but remember, your values for CF_TARGET may be different):
 +
 ----
-$ mkdir config-repo && cd config-repo
-----
-
-. Initialize the Git repository:
-+
-----
-$ git init
-----
-
-. In the repo, create the file `application.yml`, and into that file paste the following:
-+
-----
-greeting: Howdy %s!
-
-security:
-  basic:
-    enabled: false
-
-management:
-  security:
-    enabled: false
-    
-eureka:
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    metadataMap:
-      instanceId: ${vcap.application.instance_id:${spring.application.name}:${server.port:8080}}
-  client:
-    serviceUrl:
-      defaultZone: ${vcap.services.service-registry.credentials.uri:http://127.0.0.1:8761}/eureka/
-
 ---
-spring:
-  profiles: cloud
-eureka:
-  instance:
-    hostname: ${vcap.application.uris[0]}
-    nonSecurePort: 80
+memory: 1GB
+instances: 1
+applications:
+- name: hello-server
+  host: hello-server-${random-word}
+  path: hello-server/build/libs/hello-server-0.0.1-SNAPSHOT.jar
+  services:
+  - service-registry
+  - config-server              # Add the config server here, and below as well
+  env:
+    CF_TARGET: https://api.pcf5.cloud.fe.pivotal.io
+- name: hello-ui
+  host: hello-ui-${random-word}
+  path: hello-ui/build/libs/hello-ui-0.0.1-SNAPSHOT.jar
+  services:
+  - service-registry
+  - config-server               # Here too
+  env:
+    CF_TARGET: https://api.pcf5.cloud.fe.pivotal.io
+----
++
+. Now that everything is set up, let's use the config server. Inside of the `hello-server` project, edit the io.pivotal.HelloController class.  The original version hard codes its greeting member variable.  Instead, lets dynamically bind the greeting from our config.  Use the `@Value` annotation to do this:
++
+[source,java]
+----
+package io.pivotal;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+
+    @Value("${greeting}")   // <--- Add this annotation
+    String greeting;        // <--- Remove the assignment
+
+    @RequestMapping("/hello")
+    public String sayHello(@RequestParam(value="name", defaultValue="World") String toWho) {
+        String result = String.format(greeting, toWho);
+        System.out.println(result);
+        return result;
+    }
+}
 ----
 
-. Stage your changes and commit them:
+== Build and Push the applications
+
+. Change to the directory that contains hello-ui and hello-server components.
 +
 ----
-git add . && git commit -m "initial commit"
+$ cd $COURSE_HOME/session_05/lab_08/initial
 ----
-
-. Make sure you're logged in to your GitHub account, and create a new repository:
 +
-image::../../Common/images/github_1.png[]
-
-. Give the repo a name and description, and then click ``Create repository'':
-+
-image::../../Common/images/github_2.png[]
-
-. Paste the commands from ``...push an existing repository...'' to the command prompt and execute them:
-+
-image::../../Common/images/github_3.png[]
+.  Build the applications
 +
 ----
-$ git remote add origin https://github.com/mstine/springbox-config-repo.git
-$ git push -u origin master
-Counting objects: 3, done.
-Writing objects: 100% (3/3), 229 bytes | 0 bytes/s, done.
-Total 3 (delta 0), reused 0 (delta 0)
-To https://github.com/mstine/springbox-config-repo.git
- * [new branch]      master -> master
-Branch master set up to track remote branch master from origin.
+$ gradlew.bat assemble
 ----
-
-. Refresh the browser to see your pushed changes:
 +
-image::../../Common/images/lab10screenshot1.png[]
-
-== Point Config Server To Your Repository
-
-. Open the Application Manager console in your browser.  Go to the org and space where you created the service instances and scroll down until you see the entry for the Config Server.
-+
-image::../../Common/images/lab9screenshot1.png[]
-+
-. Click the "Manage" link under the config server.  
-
-. Click the "Git" radio button and enter your config repo as the "Git URI".
-+
-image::../../Common/images/lab10screenshot2.png[]
-+
-. Click "Submit".
-
-. Tell the Hello Server app to refresh it's configuration by sending a POST to the "refresh" endpoint.
+.  Push the applications and tell Cloud Foundry not to start the applications.
 +
 ----
-    curl -X POST --insecure https://<Your Hello Server URL>/refresh
+$cf push
 ----
-
-. Visit the Fortune UI once again and see your configuration value on the page.
 +
-image::../../Common/images/lab10screenshot3.png[]
+. Verify that the applications is now using the Config Server by visiting the URL for the hello-ui application and testing it out.  You should see the Greeting is now "Howdy" instead of "Hello"
