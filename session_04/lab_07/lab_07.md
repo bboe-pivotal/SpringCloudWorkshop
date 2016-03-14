@@ -33,15 +33,15 @@ $ java -jar build/libs/hello-spring-boot-0.0.1-SNAPSHOT.jar
 
 + Try out the following endpoints. The output is omitted here because it can be quite large:
 
-+ http://localhost:8080/beans:: Dumps all of the beans in the Spring context.
-+ http://localhost:8080/autoconfig:: Dumps all of the auto-configuration performed as part of application bootstrapping.
-+ http://localhost:8080/configprops:: Displays a collated list of all `@ConfigurationProperties`.
-+ http://localhost:8080/env:: Dumps the application's shell environment as well as all Java system properties.
-+ http://localhost:8080/mappings:: Dumps all URI request mappings and the controller methods to which they are mapped.
-+ http://localhost:8080/dump:: Performs a thread dump.
-+ http://localhost:8080/trace:: Displays trace information (by default the last few HTTP requests).
++ http://localhost:8080/beans - Dumps all of the beans in the Spring context.
++ http://localhost:8080/autoconfig - Dumps all of the auto-configuration performed as part of application bootstrapping.
++ http://localhost:8080/configprops - Displays a collated list of all `@ConfigurationProperties`.
++ http://localhost:8080/env - Dumps the application's shell environment as well as all Java system properties.
++ http://localhost:8080/mappings - Dumps all URI request mappings and the controller methods to which they are mapped.
++ http://localhost:8080/dump - Performs a thread dump.
++ http://localhost:8080/trace - Displays trace information (by default the last few HTTP requests).
 
-++ Build and Version Control Info
+## Build and Version Control Info
 
 Spring Boot provides an endpoint (http://localhost:8080/info) that allows the exposure of arbitrary metadata.
 
@@ -71,9 +71,9 @@ project.tasks.jar.dependsOn('gitprops')
 ```
 info:
   build:
-  name: ${project.name}
-  description: ${project.description}
-  version: ${project.version}
+    name: ${project.name}
+    description: ${project.description}
+    version: ${project.version}
 ```
 + Add the following below the plugin section of 'build.gradle'
 
@@ -92,7 +92,7 @@ $ ./gradlew build
 
 + Run the application:
 ```
-$ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+$ java -jar build/libs/hello-spring-boot-0.0.1-SNAPSHOT.jar
 ```
 
 + Visit the application in the browser (http://localhost:8080/info), and verify that the output is similar to the following:
@@ -114,7 +114,7 @@ $ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
 }
 ```
 
-++ Health Indicators
+## Health Indicators
 
 Spring Boot provides an endpoint (http://localhost:8080/health) that allows for the notion of various health indicators.
 
@@ -158,7 +158,7 @@ $ ./gradlew build
 
 + Run the application:
 ```
-$ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+$ java -jar build/libs/hello-spring-boot-0.0.1-SNAPSHOT.jar
 ```
 
 + Visit the application in the browser (http://localhost:8080/health), and verify that the output is similar to the following (and changes randomly!):
@@ -230,7 +230,7 @@ $ ./gradlew build
 
 + Run the application:
 ```
-$ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+$ java -jar build/libs/hello-spring-boot-0.0.1-SNAPSHOT.jar
 ```
 
 + Visit the application in the browser (http://localhost:8080) and refresh the page several times.

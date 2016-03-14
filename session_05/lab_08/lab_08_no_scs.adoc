@@ -92,7 +92,7 @@ OK
 .. If you are on Windows, you need to lookup the service host names, and create the User Defined Services manually.  Use the text below as a guide, but you will need to modify the uri component to match your service urls.
 +
 ----
-$cf apps
+c:\> cf apps
 Getting apps in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
 OK
 
@@ -101,11 +101,11 @@ config-server       started           1/1         384M     1G     config-server-
 hystrix-dashboard   started           1/1         384M     1G     hystrix-dashboard-minuscular-jester.cf.grogscave.net   
 service-registry    started           1/1         384M     1G     service-registry-aphorismic-farmery.cf.grogscave.net   
 
-$cf cups config-server -p '{"uri":"http://config-server-unsolicited-curator.cf.grogscave.net"}'
+c:\> cf cups config-server -p "{\"uri\":\"http://config-server-unsolicited-curator.cf.grogscave.net\"}"
 Creating user provided service config-server in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
 OK
 
-$cf cups service-registry -p '{"uri":"http://service-registry-aphorismic-farmery.cf.grogscave.net"}'
+c:\> cf cups service-registry -p "{\"uri\":\"http://service-registry-aphorismic-farmery.cf.grogscave.net\"}"
 Creating user provided service service-registry in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
 OK
 ----
