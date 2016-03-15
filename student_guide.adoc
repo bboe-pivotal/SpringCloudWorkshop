@@ -72,7 +72,7 @@ $ git fetch --all
 ** link:session_03/dotnet/lab_05/lab_05_dotnet.adoc[Lab 5, .NET Track - Deploy an ASP.NET v5 Application]
 ** link:session_03/dotnet/lab_06/lab_06_dotnet.adoc[Lab 6, .NET Track - Consuming Data Services within a .NET 4.5 Application]
 * Session 4
-** link:session_04/lab_07/lab_07.adoc[Lab 7, Java Track - Introspection, Monitoring, and Metrics using Spring Boot Actuator]
+** link:session_04/lab_07/lab_07.md[Lab 7, Java Track - Introspection, Monitoring, and Metrics using Spring Boot Actuator]
 ** link:session_04/lab_07_alternate/lab_07_alternate.adoc[Lab 7, .NET Track - Strategies for Continuous Delivery - CI tools and Blue/Green Deployments]
 * Session 5
 ** link:session_05/lab_08/lab_08.adoc[Lab 8 - Getting Started with Spring Cloud Services]
