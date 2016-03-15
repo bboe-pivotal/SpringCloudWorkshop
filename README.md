@@ -9,13 +9,14 @@
 4. Firefox or Chrome (Not IE)
 
 ## Smoke Test
+From the command line:
 
 1. Git clone (or download and unzip from Git) https://github.com/cdelashmutt-pivotal/SpringCloudWorkshop.git 
-2. cd SpringCloudWorkshop/session_04/lab_07/complete/hello-actuator
-3. gradlew.bat assemble ( or ./gradlew on MacOSX)
-4. java -jar build/libs/hello-actuator-0.0.1-SNAPSHOT.jar
+2. `cd SpringCloudWorkshop/session_04/lab_07/complete/hello-actuator`
+3. `gradlew.bat assemble` ( or `./gradlew` on MacOSX)
+4. `java -jar build/libs/hello-actuator-0.0.1-SNAPSHOT.jar`
 5. browse to http://localhost:8080
-6. cf login -a https://api.pcf12.cloud.fe.pivotal.io --skip-ssl-validation (use student1/f1s3rv)
+6. `cf login -a https://api.pcf12.cloud.fe.pivotal.io --skip-ssl-validation` (use student1/f1s3rv)
 
 ### Optional
  
