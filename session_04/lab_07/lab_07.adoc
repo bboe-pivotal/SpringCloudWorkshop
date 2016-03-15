@@ -1,0 +1,201 @@
+# Lab 7 - Introspection, Monitoring, and Metrics using Spring Boot Actuator
+
+## Set up the Actuator
+
+. Change to the lab directory:
++
+----
+$ cd $COURSE_HOME/session_04/lab_07/initial/hello-actuator
+----
+
+. Import the project's `build.gradle` into your editor/IDE of choice.  Remember, you can use `gradlew.bat eclipse` to generate an eclipse project, classpath, etc.
+
+. To `build.gradle` add the following dependency to include the starter for Spring Boot Actuator:
++
+----
+compile('org.springframework.boot:spring-boot-starter-actuator')
+----
++
+Remember, if you are using eclipse, to update its classpath file after modifying `build.grade` using `gradlew.bat eclipse`
+and then refresh the project inside of eclipse.
+
+== Introspection Endpoints
+
+. Build the application:
++
+----
+$ gradlew.bat assemble
+----
+
+. Run the application:
++
+----
+$ java -jar build/libs/hello-actuator-0.0.1-SNAPSHOT.jar
+----
+
+. Try out the following endpoints. Remember, you must use Firefox given your organizations proxy configuration within Internet Explorer.  The output is omitted here because it can be quite large:
++
+http://localhost:8080/beans:: Dumps all of the beans in the Spring context.
+http://localhost:8080/autoconfig:: Dumps all of the auto-configuration performed as part of application bootstrapping.
+http://localhost:8080/configprops:: Displays a collated list of all `@ConfigurationProperties`.
+http://localhost:8080/env:: Dumps the application's shell environment as well as all Java system properties.
+http://localhost:8080/mappings:: Dumps all URI request mappings and the controller methods to which they are mapped.
+http://localhost:8080/dump:: Performs a thread dump.
+http://localhost:8080/trace:: Displays trace information (by default the last few HTTP requests).
+
+== Health Indicators
+
+Spring Boot provides an endpoint (http://localhost:8080/health) that allows for the notion of various health indicators.
+
+. Normally, when Spring Security is not enabled, the `/health` endpoint will only expose an `UP` or `DOWN` value.
+To simplify working with the endpoint for this lab, we will turn off its sensitivity.
+Add the following to `src/main/resources/application.properties`:
++
+----
+endpoints.health.sensitive=false
+----
+
+. Create the class `com.example.FlappingHealthIndicator` and into it paste the following code:
++
+----
+package com.example;
+
+import java.util.Random;
+
+import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.stereotype.Component;
+
+@Component
+public class FlappingHealthIndicator implements HealthIndicator{
+
+    private Random random = new Random(System.currentTimeMillis());
+
+    @Override
+    public Health health() {
+        int result = random.nextInt(100);
+        if (result < 50) {
+            return Health.down().withDetail("flapper", "failure").withDetail("random", result).build();
+        } else {
+            return Health.up().withDetail("flapper", "ok").withDetail("random", result).build();
+        }
+    }
+}
+----
++
+This demo health indicator will randomize the health check.
+
+. Build the application:
++
+----
+$ gradlew.bat assemble
+----
+
+. Run the application:
++
+----
+$ java -jar build/libs/hello-actuator-0.0.1-SNAPSHOT.jar
+----
+
+. Visit the application in the browser (http://localhost:8080/health), and verify that the output is similar to the following (and changes randomly!):
++
+----
+{
+  status: "UP",
+  flapping: {
+    status: "UP",
+    flapper: "ok",
+    random: 69
+  },
+  diskSpace: {
+    status: "UP",
+    free: 113632186368,
+    threshold: 10485760
+  }
+}
+----
+
+== Metrics
+
+Spring Boot provides an endpoint (http://localhost:8080/metrics) that exposes several automatically collected metrics for your application.
+It also allows for the creation of custom metrics.
+
+. Create the class `com.example.MoodyService` and into it paste the following code:
++
+----
+package com.example;
+
+import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.metrics.CounterService;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MoodyService {
+
+	@Autowired
+	CounterService counterService;
+
+	public String getMood() {
+		counterService.increment("counter.services.moody.invoked");
+		return (new Random().nextBoolean() ? "Its a beautiful day" : "I hate everyone");
+	}
+}
+----
++
+This class is using the `@Autowired` `CounterService` to count the number of times that the `getMood()` method has been invoked.
+
+. Refactor the contents of the class `com.example.HelloActuatorApplication` to provide a RESTful method that uses the new MoodyService:
++
+----
+package com.example;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@SpringBootApplication
+@RestController
+public class HelloActuatorApplication {
+
+	@Autowired
+	MoodyService moodyService;
+
+	public static void main(String[] args) {
+		SpringApplication.run(HelloActuatorApplication.class, args);
+	}
+
+	@RequestMapping("/")
+	public String hello() {
+		return String.format("Hello World! %s", moodyService.getMood());
+	}
+}
+----
++
+We've added the `RestController` annotation to mark this class as one that will handle RESTful http requests and define mappings from URI endpoints to logic that we write.  The `hello()` method is mapped to the root context of our application, and is delegating the source of the mood to our newly created `MoodyService`, which, since we declared it as a Component, can be easily discovered and wired in using the Autowired annotation.
+
+. Build the application:
++
+----
+$ gradlew.bat assemble
+----
+
+. Run the application:
++
+----
+$ java -jar build/libs/hello-actuator-0.0.1-SNAPSHOT.jar
+----
+
+. Visit the application in the browser (http://localhost:8080) and refresh the page several times.
+
+. Now visit the `/metrics` endpoint (http://localhost:8080/metrics).
+Among the autogenerated metrics you should see a `counter` for the `MoodyService` invocations:
++
+----
+counter.services.moody.invoked: 16,
+----
++
+To learn more about the autogenerated metrics, visit http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-metrics.html.
