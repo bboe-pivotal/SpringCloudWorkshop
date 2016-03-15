@@ -100,4 +100,4 @@ $ gradlew.bat assemble
 $cf push
 ----
 +
-. Verify that the applications is now using the Config Server by visiting the URL for the hello-ui application and testing it out.  You should see the Greeting is now "Howdy" instead of "Hello"
+. Verify that the applications is now using the Config Server by visiting the URL for the hello-ui application and testing it out.  You should see the Greeting is now "Gutentag" instead of "Hello"
