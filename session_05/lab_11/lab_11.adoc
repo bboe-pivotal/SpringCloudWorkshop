@@ -1,5 +1,5 @@
 :compat-mode:
-= Lab 10 - Circuit Breakers
+= Lab 11 - Circuit Breakers
 
 [abstract]
 Cloud-native architectures are typically composed of multiple layers of distributed services. End-user requests may comprise multiple calls to these services, and if a lower-level service fails, the failure can cascade up to the end user and spread to other dependent services. Heavy traffic to a failing service can also make it difficult to repair. Using Circuit Breakers, along with the Cloud Foundry Circuit Breaker Dashboard, you can prevent failures from cascading and provide fallback behavior until a failing service is restored to normal operation.
@@ -89,7 +89,7 @@ public class SayHelloCommand {
 	 @HystrixCommand(fallbackMethod = "sayHelloFallback")   // <--- Add this
     public String sayHello(String toWho) throws Exception {
         try{
-        	return restTemplate.getForObject("https://hello-world-server/hello?name={name}", String.class, toWho);
+        	return restTemplate.getForObject("http://hello-world-server/hello?name={name}", String.class, toWho);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

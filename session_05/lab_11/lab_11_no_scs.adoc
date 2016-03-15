@@ -1,5 +1,148 @@
 :compat-mode:
-= Lab 11 - The Circuit Breaker Dashboard
+= Lab 11 - Circuit Breakers
+
+[abstract]
+Cloud-native architectures are typically composed of multiple layers of distributed services. End-user requests may comprise multiple calls to these services, and if a lower-level service fails, the failure can cascade up to the end user and spread to other dependent services. Heavy traffic to a failing service can also make it difficult to repair. Using Circuit Breakers, along with the Cloud Foundry Circuit Breaker Dashboard, you can prevent failures from cascading and provide fallback behavior until a failing service is restored to normal operation.
+--
+
+--
+
+== Building and Pushing the Hystrix Dashboard
+
+. First, build hello-hystrix-dashboard app.
++
+----
+$ cd $COURSE_HOME/session_05/lab_09/hello-hystrix-dashboard
+$ ./gradlew build
+:compileJava UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:findMainClass
+:jar
+:bootRepackage
+:assemble
+:compileTestJava UP-TO-DATE
+:processTestResources UP-TO-DATE
+:testClasses UP-TO-DATE
+:test UP-TO-DATE
+:check UP-TO-DATE
+:build
+
+BUILD SUCCESSFUL
+
+Total time: 10.225 secs
+$ 
+----
+. Now we need to push the hello-hystrix-dashboard app to Cloud Foundry
++
+----
+$ cf push
+Using manifest file /Users/cdelashmutt/git/SpringCloudWorkshop/session_05/lab_11/hello-hystrix-dashboard/manifest.yml
+
+Creating app hystrix-dashboard in org system / space mssql-broker as instructor...
+OK
+
+Creating route hystrix-dashboard-shelly-impinger.pcf12.cloud.fe.pivotal.io...
+OK
+
+Binding hystrix-dashboard-shelly-impinger.pcf12.cloud.fe.pivotal.io to hystrix-dashboard...
+OK
+
+Uploading hystrix-dashboard...
+
+...
+
+requested state: started
+instances: 1/1
+usage: 384M x 1 instances
+urls: hystrix-dashboard-shelly-impinger.pcf12.cloud.fe.pivotal.io
+last uploaded: Tue Mar 15 04:30:30 UTC 2016
+stack: cflinuxfs2
+buildpack: java-buildpack=v3.5.1-offline-http://github.com/pivotal-cf/pcf-java-buildpack.git#d6c19f8 java-main open-jdk-like-jre=1.8.0_65 open-jdk-like-memory-calculator=2.0.1_RELEASE spring-auto-reconfiguration=1.10.0_RELEASE
+
+     state     since                    cpu    memory         disk         details   
+#0   running   2016-03-15 12:31:25 AM   0.0%   692K of 384M   1.3M of 1G      
+$ 
+----
++
+. Now let's enable the Circuit Breaker pattern for our UI service.  We want to use a circuit breaker to provide a barrier around failures within the Hello Service.
+Start by going to the hello-ui project, and editing the `io.pivotal.helloui.HelloUiApplication` class.  Add the `@EnableCircuitBreaker` annotation.
++
+[source,java]
+----
+package io.pivotal.helloui;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;  // <--- Add this import
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+@SpringBootApplication
+@EnableDiscoveryClient
+@EnableCircuitBreaker  // <--- Add this annotation
+public class HelloUiApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(HelloUiApplication.class, args);
+    }
+}
+----
++
+. Next, let's add a fallback method that surrounds our Hello Service dependency.  Go into `io.pivotal.helloui.controller.SayHelloCommand` and add the `@HystrixCommand` annotation, along with an appropriate fallback method, as shown below.
++
+[source,java]
+----
+package io.pivotal.helloui.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;  // <--- Add this
+
+@Component
+public class SayHelloCommand {
+
+	@Autowired
+	@LoadBalanced
+	RestTemplate restTemplate;
+
+	 @HystrixCommand(fallbackMethod = "sayHelloFallback")   // <--- Add this
+    public String sayHello(String toWho) throws Exception {
+        try{
+        	return restTemplate.getForObject("http://hello-world-server/hello?name={name}", String.class, toWho);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+	public String sayHelloFallback(String toWho) {   // --- Add this method ---
+		return String.format("Come back later to hear me say hello, %s", toWho);
+	}
+}
+----
+
+== Build and Push the applications
+
+. Change to the directory that contains hello-ui and hello-server components.
++
+----
+$ cd $COURSE_HOME/session_05/lab_08/initial
+----
++
+.  Build the applications
++
+----
+$ gradlew.bat assemble
+----
++
+.  Push the applications and tell Cloud Foundry not to start the applications.
++
+----
+$cf push
+----
 
 == Use the Circuit Breaker Dashboard
 

@@ -101,7 +101,7 @@ public class SayHelloCommand {
 
     public String sayHello(String toWho) throws Exception {
         try{
-        	return rt.getForObject("https://hello-world-server/hello?name={name}", String.class, toWho);  // <--- Change this
+        	return rt.getForObject("http://hello-world-server/hello?name={name}", String.class, toWho);  // <--- Change this
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

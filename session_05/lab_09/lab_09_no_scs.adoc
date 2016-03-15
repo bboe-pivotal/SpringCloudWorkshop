@@ -1,10 +1,201 @@
 :compat-mode:
 = Lab 9 - Exploring the Service Registry
 
-. Open the Application Manager console in your browser.  Go to the org and space where you created the service instances and scroll down until you see application called "service-registry"
-+
-image::../../Common/images/lab9_no_scs_screenshot1.png[]
+[abstract]
+The service registry is a phone book for your microservices. Each service registers itself with the service registry and tells the registry where it lives (host, port, node name) and perhaps other service-specific metadata - things that other services can use to make informed decisions about it.  In this lab, we'll use the Service Registry to bind our two lonely microservices together.
+--
 
-. Click the url link under the "service-registry" app name in the list to navigate to the UI for the service registry. Notice that both the server and UI apps have registered themselves. Explore the dashboard.
+--
+
+== Building and Pushing the Service Registry
+
+. First, build hello-eureka app.
 +
-image::../../Common/images/lab9_no_scs_screenshot2.png[]
+----
+$ cd $COURSE_HOME/session_05/lab_09/hello-eureka
+$ ./gradlew build
+:compileJava UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:findMainClass
+:jar
+:bootRepackage
+:assemble
+:compileTestJava UP-TO-DATE
+:processTestResources UP-TO-DATE
+:testClasses UP-TO-DATE
+:test UP-TO-DATE
+:check UP-TO-DATE
+:build
+
+BUILD SUCCESSFUL
+
+Total time: 10.225 secs
+$ 
+----
+. Now we need to push the hello-eureka app to Cloud Foundry
++
+----
+$ cf push
+Using manifest file /Users/cdelashmutt/git/SpringCloudWorkshop/session_05/lab_09/hello-eureka/manifest.yml
+
+Creating app service-registry in org system / space mssql-broker as instructor...
+OK
+
+Creating route service-registry-dyslogistic-literalness.pcf12.cloud.fe.pivotal.io...
+OK
+
+Binding service-registry-dyslogistic-literalness.pcf12.cloud.fe.pivotal.io to service-registry...
+OK
+
+Uploading service-registry...
+
+...
+
+requested state: started
+instances: 1/1
+usage: 384M x 1 instances
+urls: service-registry-dyslogistic-literalness.pcf12.cloud.fe.pivotal.io
+last uploaded: Tue Mar 15 03:49:40 UTC 2016
+stack: cflinuxfs2
+buildpack: java-buildpack=v3.5.1-offline-http://github.com/pivotal-cf/pcf-java-buildpack.git#d6c19f8 java-main open-jdk-like-jre=1.8.0_65 open-jdk-like-memory-calculator=2.0.1_RELEASE spring-auto-reconfiguration=1.10.0_RELEASE
+
+     state     since                    cpu    memory          disk           details   
+#0   running   2016-03-14 11:51:00 PM   0.0%   35.5M of 384M   158.5M of 1G      
+$ 
+----
+. Notice in your output of the push of the service registry, it was bound to a random host name to prevent collisions between students.  We need to now create a user provided service for the Eureka service registry.
++
+. Note the random host name and use the text below as a guide.  You will need to modify the uri component to match your service registry app url.
++
+----
+$ cf cups service-registry -p "{\"uri\":\"http://service-registry-dyslogistic-literalness.pcf12.cloud.fe.pivotal.io\"}"
+Creating user provided service service-registry in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
+OK
+
+$
+----
++
+. Next, we need to tell Cloud Foundry to bind this service instance to each of our applications.  Open the manifest.yml file and add two `services` sections, one for each application, that references the new service you created.
++
+----
+---
+memory: 1GB
+instances: 1
+applications:
+- name: hello-server
+  host: hello-server-${random-word}
+  path: hello-server/build/libs/hello-server-0.0.1-SNAPSHOT.jar
+  services:                #  Add this section
+  - service-registry
+- name: hello-ui
+  host: hello-ui-${random-word}
+  path: hello-ui/build/libs/hello-ui-0.0.1-SNAPSHOT.jar
+  services:                #  And add this one
+  - service-registry
+----
++
+. Next, inside of the `hello-server` project, edit the io.pivotal.HelloServerApplication class.  Add the `@EnableDiscoveryClient` annotation, and its import.
++
+[source,java]
+----
+package io.pivotal;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;  // <--- Add this
+
+@SpringBootApplication
+@EnableDiscoveryClient  // <---- Add this
+public class HelloServerApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(HelloServerApplication.class, args);
+    }
+}
+----
++
+. Repeat this change for the `hello-ui` project, editing the io.pivotal.helloui.HelloUiApplication class
++
+[source,java]
+----
+package io.pivotal.helloui;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;  // <--- Add this
+
+@SpringBootApplication
+@EnableDiscoveryClient  // <--- Add this
+public class HelloUiApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(HelloUiApplication.class, args);
+    }
+}
+----
+. Now, you can easily talk to the hello-server from the hello-ui using logical bindings.  Let's try it.  In the hello-ui project, open up `io.pivotal.helloui.controller.SayHelloCommand` and refactor it to look like this:
++
+[source,java]
+----
+package io.pivotal.helloui.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;  // <--- Add this
+import org.springframework.cloud.client.loadbalancer.LoadBalanced; // <--- Add this
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;  // <--- Add this
+
+@Component
+public class SayHelloCommand {
+
+	@Autowired                      //
+	@LoadBalanced                   //   <--- Add these lines
+	RestTemplate rt;                //
+
+    public String sayHello(String toWho) throws Exception {
+        try{
+        	return rt.getForObject("https://hello-world-server/hello?name={name}", String.class, toWho);  // <--- Change this
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+}
+----
++
+Notice a couple of things here.  First, we can access the hello-world-server using a logical name instead of
+a true DNS'able host.  This means that as this thing moves around, or as this service is deployed into different
+environments, we stay agnostic to its location, and thereby resilient to change.
++
+Notice also the `@LoadBalanced` annotation on our `restTemplate.` This means that Spring Cloud Services will automatically
+load balance across multiple instances of the hello-world-server service.
++
+Oh yeah, and remember back when we gave each of these microservices a name inside of bootstrap.yml?  That's how that
+microservice gets registered into the Service Registry, and this becomes the logical name that dependencies use to
+interact with it.
+
+== Build and Push the applications
+
+. Make sure everything is saved and then change to the directory that contains hello-ui and hello-server components.
++
+----
+$ cd $COURSE_HOME/session_05/lab_08/initial
+----
++
+.  Build the applications
++
+----
+$ gradlew.bat assemble
+----
++
+.  Push the applications to Cloud Foundry.
++
+----
+$cf push
+----
++
+. Verify that the applications started by visiting the URL for the hello-ui application and testing it out.
++
+image::/../../Common/images/lab8screenshot4.png[]
+. Now, let's take a quick look inside the Service Registry.  Open the Application Manager console in your browser.  Go to the org and space where you deployed the service registry app, and scroll down until you see the entry for the hello-eureka app.
+. Click the on the URL bound to the application to bring up the service registry dashboard. Notice that both the server and UI apps have registered themselves. Explore the dashboard.

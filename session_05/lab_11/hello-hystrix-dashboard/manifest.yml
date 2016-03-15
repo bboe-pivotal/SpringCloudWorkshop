@@ -1,0 +1,7 @@
+---
+memory: 384M
+instances: 1
+applications:
+- name: hystrix-dashboard
+  host: hystrix-dashboard-${random-word}
+  path: build/libs/hello-hystrix-dashboard.jar

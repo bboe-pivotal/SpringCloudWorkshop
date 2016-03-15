@@ -1,0 +1,7 @@
+---
+memory: 384M
+instances: 1
+applications:
+- name: config-server
+  host: config-server-${random-word}
+  path: build/libs/hello-config-server.jar

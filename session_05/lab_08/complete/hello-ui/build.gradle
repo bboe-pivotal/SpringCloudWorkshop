@@ -54,6 +54,6 @@ dependencies {
 
 dependencyManagement {
 	imports {
-		mavenBom "io.pivotal.spring.cloud:spring-cloud-services-starter-parent:1.0.2.RELEASE"
+        mavenBom "io.pivotal.spring.cloud:spring-cloud-services-starter-parent:1.0.2.RELEASE"
 	}
 }

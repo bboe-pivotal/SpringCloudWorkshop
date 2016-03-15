@@ -17,7 +17,7 @@ public class SayHelloCommand {
 	@HystrixCommand(fallbackMethod = "sayHelloFallback")
     public String sayHello(String toWho) throws Exception {
         try{
-        	return restTemplate.getForObject("https://hello-world-server/hello?name={name}", String.class, toWho);
+        	return restTemplate.getForObject("http://hello-world-server/hello?name={name}", String.class, toWho);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
