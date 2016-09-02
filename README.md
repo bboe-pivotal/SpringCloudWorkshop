@@ -5,7 +5,7 @@
 1. Windows or Mac OSX 
 2. Java JDK 1.7+ (_Required_, whether or not the .NET labs will be followed)
 3. Install the PCF CLI 
-    - Download from https://apps.pcf12.cloud.fe.pivotal.io/tools
+    - Download from https://apps.pcf5.cloud.fe.pivotal.io/tools
 4. Firefox or Chrome (Not IE)
 5. Recommended but not required, Git CLI from https://git-scm.com/downloads.
 
