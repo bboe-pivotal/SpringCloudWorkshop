@@ -4,31 +4,9 @@ Student Guide
 
 == Instructor Details
 
-Joel Rolfe +
-Senior Platform Architect - Pivotal +
-jrolfe@pivotal.io +
-
 Chris DeLashmutt +
 Advisory Platform Architect - Pivotal +
 cdelashmutt@pivotal.io +
-
-== Also From Pivotal
-
-James Williams +
-Director, Platform Architects - Pivotal +
-nsanfratello@pivotal.io
-
-Michael Wright +
-Manager, Platform Architects - Pivotal +
-mwright@pivotal.io
-
-Nicholas Sanfratello +
-Senior Platform Architect - Pivotal +
-nsanfratello@pivotal.io
-
-Russ West +
-Account Executive - Pivotal +
-wwest@pivotal.io
 
 == Schedule
 
@@ -47,16 +25,16 @@ $ git fetch --all
 ----
 
 === Agenda
-8:45 AM - 9:15 AM:: Finish Laptop Setups
-9:15 AM - 10:30 AM:: *Session 1:* _Intro to Pivotal Cloud Foundry_
-10:30 AM - 10:45 AM:: Morning Break
-10:45 AM - 11:15 AM:: *Session 2:* _Buildpacks and Services_
-11:15 AM - 12:15 PM:: *Session 3:*  _.NET on Cloud Foundry_, _Spring Data on Cloud Foundry_
-12:15 PM - 1:30 PM:: Lunch
-1:30 PM - 2:15 PM:: *Session 4:* _CI/CD with Cloud Foundry_, _Spring Boot_
-2:15 PM - 2:30 PM:: Afternoon Break
-2:30 PM - 3:45 PM:: *Session 5:* _Spring Cloud Services on Cloud Foundry_
-3:45 PM - 4:15 PM:: Q&A, Additional Topics / Debugging / etc
+9:00 AM - 9:30 AM:: Finish Laptop Setups and Assign Logins
+9:30 AM - 10:45 AM:: *Session 1:* _Intro to Pivotal Cloud Foundry_
+10:45 AM - 11:00 AM:: Morning Break
+11:00 AM - 11:30 AM:: *Session 2:* _Buildpacks and Services_
+11:30 AM - 12:30 PM:: *Session 3:*  _.NET on Cloud Foundry_, _Spring Data on Cloud Foundry_
+12:30 PM - 1:45 PM:: Lunch
+1:45 PM - 2:30 PM:: *Session 4:* _CI/CD with Cloud Foundry_, _Spring Boot_
+2:30 PM - 2:45 PM:: Afternoon Break
+2:45 PM - 4:00 PM:: *Session 5:* _Spring Cloud Services on Cloud Foundry_
+4:00 PM - 5:00 PM:: Q&A, Additional Topics / Debugging / etc
 
 == Course Materials
 
