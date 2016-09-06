@@ -2,7 +2,6 @@
 = Lab 8 - Binding to Spring Cloud Services - Getting Started
 
 [abstract]
-+
 In this lab, we'll deploy a couple of really simple microservices. The first is a RESTful API that has the business logic needed to say Hello to people. The second is a UI that finds out who you are and then says Hello to you.
 --
 
