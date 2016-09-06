@@ -10,7 +10,11 @@ $ cd $COURSE_HOME/session_04/lab_07/initial/hello-actuator
 
 . Import the project's `build.gradle` into your editor/IDE of choice.  Remember, you can use `gradlew.bat eclipse` to generate an eclipse project, classpath, etc.
 
-. To `build.gradle` add the following dependency to include the starter for Spring Boot Actuator:
+. [WARNING]
+======================================================================================================================================
+In the instruction below, pay special attention to where you are adding the dependency in the build.gradle file.  There are comments in the file directing you to the proper location
+======================================================================================================================================
++ To `build.gradle` add the following dependency to include the starter for Spring Boot Actuator:
 +
 ----
 compile('org.springframework.boot:spring-boot-starter-actuator')
