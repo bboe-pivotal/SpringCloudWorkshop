@@ -6,6 +6,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
+		// DO NOT ADD YOUR DEPENDENCY HERE!!!
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
@@ -28,6 +29,7 @@ repositories {
 
 
 dependencies {
+	// Add your dependency here
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
