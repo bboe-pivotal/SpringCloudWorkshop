@@ -14,7 +14,18 @@ $ cd $COURSE_HOME/session_03/lab_06/initial/cities
 ----
 
 . At present we're still using the in-memory database. Let's connect to a MySQL database service.
-From the CLI, let's _create_ a developer MySQL service instance:
+From the CLI, let's _create_ a developer MySQL service instance.
+
+- If you are running this lab on Pivotal Web Services, use the following command:
++
+[source,bash]
+----
+$ cf create-service cleardb spark cities-db
+Creating service cities-db...
+OK
+----
+
+- If you are running this lab on your own Pivotal Cloud Foundry or PCF Dev instances, use the following command:
 +
 [source,bash]
 ----
