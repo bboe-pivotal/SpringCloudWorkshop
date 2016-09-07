@@ -69,7 +69,9 @@ $
 . Note the random host name and use the text below as a guide.  You will need to modify the uri component to match your service registry app url.
 +
 ----
-$ cf cups service-registry -p "{\"uri\":\"http://service-registry-dyslogistic-literalness.pcf12.cloud.fe.pivotal.io\"}"
+$ cf cups service-registry -p "uri
+
+uri> http://<PUT THE HOSTNAME FOR YOUR SERVICE REGISTRY HERE>
 Creating user provided service service-registry in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
 OK
 
@@ -180,6 +182,11 @@ interact with it.
 +
 ----
 $ cd $COURSE_HOME/session_05/lab_08/initial
+----
+. Update the hello-ui and hello-server src/main/resources/application.properties files and add the following line
++
+----
+eureka.client.serviceUrl.defaultZone=${vcap.services.service-registry.credentials.uri:http://127.0.0.1:8761}/eureka/
 ----
 +
 .  Build the applications
