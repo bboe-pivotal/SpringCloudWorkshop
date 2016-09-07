@@ -69,7 +69,7 @@ $
 . Note the random host name and use the text below as a guide.  You will need to modify the uri component to match your service registry app url.
 +
 ----
-$ cf cups service-registry -p "uri
+$ cf cups service-registry -p "uri"
 
 uri> http://<PUT THE HOSTNAME FOR YOUR SERVICE REGISTRY HERE>
 Creating user provided service service-registry in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
@@ -78,7 +78,13 @@ OK
 $
 ----
 +
-. Next, we need to tell Cloud Foundry to bind this service instance to each of our applications.  Open the manifest.yml file and add two `services` sections, one for each application, that references the new service you created.
+. Next, we need to tell Cloud Foundry to bind this service instance to each of our applications.  First, change directories back to the lab_08/initial directory.
++
+----
+$ cd $COURSE_HOME/session_05/lab_08
+----
++
+. Open the manifest.yml file and add two `services` sections, one for each application, that references the new service you created.
 +
 ----
 ---
@@ -175,20 +181,15 @@ load balance across multiple instances of the hello-world-server service.
 Oh yeah, and remember back when we gave each of these microservices a name inside of bootstrap.yml?  That's how that
 microservice gets registered into the Service Registry, and this becomes the logical name that dependencies use to
 interact with it.
-
-== Build and Push the applications
-
-. Make sure everything is saved and then change to the directory that contains hello-ui and hello-server components.
-+
-----
-$ cd $COURSE_HOME/session_05/lab_08/initial
-----
-. Update the hello-ui and hello-server src/main/resources/application.properties files and add the following line
+. Finally, update the src/main/resources/application.properties file in the hello-ui/initial and hello-server/initial projects and add the following line:
 +
 ----
 eureka.client.serviceUrl.defaultZone=${vcap.services.service-registry.credentials.uri:http://127.0.0.1:8761}/eureka/
 ----
 +
+
+== Build and Push the applications
+
 .  Build the applications
 +
 ----
@@ -198,7 +199,7 @@ $ gradlew.bat assemble
 .  Push the applications to Cloud Foundry.
 +
 ----
-$cf push
+$ cf push
 ----
 +
 . Verify that the applications started by visiting the URL for the hello-ui application and testing it out.
