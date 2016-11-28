@@ -112,7 +112,7 @@ Routes can actually be bound to multiple applications to support techniques such
 <7> Here we see the version of the JRE that has been chosen and installed.
 <8> And here we see the version of Tomcat that has been chosen and installed.
 <9> The complete package of your application and all of its necessary runtime components is called a _droplet_.
-Here the droplet is being uploaded to PWS's internal blobstore so that it can be easily copied to one or more _http://docs.cloudfoundry.org/concepts/architecture/execution-agent.html[Droplet Execution Agents (DEA's)]_ for execution.
+Here the droplet is being uploaded to PWS's internal blobstore so that it can be easily copied to one or more _http://docs.cloudfoundry.org/concepts/how-applications-are-staged.html[Diego Cells]_ for execution.
 <10> The CLI tells you exactly what command and argument set was used to start your application.
 <11> Finally the CLI reports the current status of your application's health.
 You can get the same output at any time by typing `cf app spring-music`.
