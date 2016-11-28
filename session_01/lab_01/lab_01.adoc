@@ -6,10 +6,10 @@
 
 . Use information from your instructor to log on to Pivotal Cloud Foundry.
 
-. Set the API target for the CLI:
+. From a command prompt, set the API target for the CLI:
 +
 ----
-$ cf api --skip-ssl-validation https://api.south.fe.pivotal.io
+$ cf api --skip-ssl-validation https://api.run.pivotal.io
 ----
 
 . Login to Pivotal Cloud Foundry:
