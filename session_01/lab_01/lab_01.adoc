@@ -9,7 +9,7 @@
 . From a command prompt, set the API target for the CLI:
 +
 ----
-$ cf api --skip-ssl-validation https://api.run.pivotal.io
+$ cf api https://api.run.pivotal.io
 ----
 
 . Login to Pivotal Cloud Foundry:
