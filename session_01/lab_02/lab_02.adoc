@@ -133,16 +133,6 @@ Deleting app spring-music in org oreilly-class / space instructor as mstine@pivo
 OK
 ----
 
-. Delete the `spring-music-mongo` service:
-+
-----
-$ cf ds spring-music-mongo
-
-Really delete the service spring-music-mongo?> y
-Deleting service spring-music-mongo in org oreilly-class / space instructor as mstine@pivotal.io...
-OK
-----
-
 . Delete the `spring-music-db` service:
 +
 ----
