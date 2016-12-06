@@ -12,7 +12,7 @@
 . Create the services the demo application depends on, first start with an instance of the config service.
 +
 ----
-$cf create-service p-config-server standard config-server
+$cf create-service p-config-server standard config-server -c '{"git": { "uri": "https://github.com/bboe-pivotal/hello-world-config-repo", "searchPaths": "configuration" } }'
 Creating service instance config-server in org student20-org / space development as student20...
 OK
 ----
@@ -32,18 +32,19 @@ $cf create-service p-circuit-breaker-dashboard standard circuit-breaker
 Creating service instance circuit-breaker in org student20-org / space development as student20...
 OK
 ----
+
+. The services may take a few minutes to initialize. Use the cf services command to see the status on creating these services and wait until they all have status "create succeeded"
 +
-. First we need to configure the config server. Open the Application Manager console and scroll down until you see the Spring Cloud services.  Under the "config-server", click "Manage".
-+
-image::../../Common/images/lab8screenshot1.png[]
-+
-. You should see a blank page for the Config Server.
-+
-image::../../Common/images/lab8screenshot2.png[]
-+
-. Later you will set up your own configuration repository in Github.  For now, enter "https://github.com/bboe-pivotal/hello-world-config-repo".
-+
-image::../../Common/images/lab8screenshot3.png[]
+----
+$cf services
+Getting services in org student20-org / space development as student20...
+OK
+
+name               service                       plan       bound apps   last operation
+circuit-breaker    p-circuit-breaker-dashboard   standard                create succeeded
+config-server      p-config-server               standard                create in progress
+service-registry   p-service-registry            standard                create succeeded
+----
 
 == Build and Push the applications
 
