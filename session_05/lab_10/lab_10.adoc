@@ -84,27 +84,62 @@ Branch master set up to track remote branch master from origin.
 +
 image::../../Common/images/lab10screenshot1.png[]
 
-== Point Config Server To Your Repository
-
-. Open the Application Manager console in your browser.  Go to the org and space where you created the service instances and scroll down until you see the entry for the Config Server.
-+
-image::../../Common/images/lab9screenshot1.png[]
-+
-. Click the "Manage" link under the config server.  
-
-. Click the "Git" radio button and enter your config repo as the "Git URI".
-+
-image::../../Common/images/lab10screenshot2.png[]
-+
-. Click "Submit".
-
-. Tell the Hello Server app to refresh it's configuration by sending a POST to the "refresh" endpoint.
+== Reconfigure Hello-Server To Use New Config Repository
+. Create a new config server instance that points to your new Git repository
 +
 ----
-    curl -X POST --insecure https://<Your Hello Server URL>/refresh
+$cf create-service p-config-server standard new-config-server -c '{"git": { "uri": "<Your-Git-Repository>", "searchPaths": "configuration" } }'
+Creating service instance new-config-server in org student20-org / space development as student20...
+OK
 ----
 
-. Visit the Fortune UI once again and see your configuration value on the page.
+. Wait until the new config server is fully up and running
++
+----
+$ cf services
+Getting services in org student20-org / space development as student20...
+OK
+
+name                service                       plan       bound apps               last operation
+service-registry    p-service-registry            standard   hello-server, hello-ui   create succeeded
+circuit-breaker     p-circuit-breaker-dashboard   standard   hello-ui                 create succeeded
+config-server       p-config-server               standard   hello-server, hello-ui   create succeeded
+new-config-server   p-config-server               standard                            create succeeded
+----
+
+. Unbind Hello-Server from the old config server
++
+----
+$ cf unbind-service hello-server config-server
+Unbinding app hello-server from service config-server in org student20-org / space development as student20...
+OK
+----
+
+. Bind Hello-Server to new config server
++
+----
+$ cf bind-service hello-server new-config-server
+Binding service new-config-server to app hello-server in org bboe-org / space development as bboe...
+OK
+TIP: Use 'cf restage hello-server' to ensure your env variable changes take effect
+----
+
+. Restart Hello-Server to leverage new config server
++
+----
+$ cf restart hello-server
+Stopping app hello-server in org bboe-org / space development as bboe...
+OK
+
+Starting app hello-server in org bboe-org / space development as bboe...
+
+0 of 2 instances running, 2 starting
+2 of 2 instances running
+
+App started
+----
+
+. Visit the Hello Server once again and see your configuration change.
 +
 image::../../Common/images/lab10screenshot3.png[]
 
