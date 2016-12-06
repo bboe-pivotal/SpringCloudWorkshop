@@ -314,3 +314,5 @@ Really delete the service cf-scale-boot-logs?> y
 Deleting service cf-scale-boot-logs in org oreilly-class / space instructor as mstine@pivotal.io...
 OK
 ----
+
+link:/README.md#course-materials[Course Materials home] | link:/session_01/lab_03/lab_03.adoc[Lab 3 - Scaling Applications] | link:/session_03/lab_05/lab_05.adoc[Lab 5 - Build a Hypermedia-Driven RESTful Web Service with Spring Data REST]
