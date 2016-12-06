@@ -8,3 +8,16 @@ image::../../Common/images/lab9screenshot1.png[]
 . Click the "Manage" link under the service registry. Notice that both the server and UI apps have registered themselves. Explore the dashboard.
 +
 image::../../Common/images/lab9screenshot2.png[]
+
+. Scale out the Hello UI and Server to see the number of endpoints registered increase in the service registry.
+----
+$ cf scale hello-ui -i 2
+Scaling app hello-ui in org bboe-org / space development as bboe...
+OK
+
+$cf scale hello-server -i 2
+Scaling app hello-server in org bboe-org / space development as bboe...
+OK
+----
+
+link:/README.md#course-materials[Course Materials home] | link:/session_05/lab_08/lab_08.adoc[Lab 8 - Binding Spring Cloud Services] | link:/session_05/lab_10/lab_10.adoc[Lab 10 - Config Server]
