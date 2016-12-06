@@ -4,7 +4,7 @@
 [abstract]
 --
 The _Spring Music_ application was designed to illustrate the ease with which various types of data services can be bound to and utilized by Spring applications running on Cloud Foundry.
-In this lab, we'll be binding the application to both MySQL and MongoDB databases.
+In this lab, we'll be binding the application to a MySQL database.
 
 Cloud Foundry services are managed through two primary types of operations:
 
@@ -35,7 +35,7 @@ $ cf marketplace
 and you'll get a list of services, their available plans, and descriptions.
 
 The second way is specific to Pivotal Cloud Foundry's Application Manager UI.
-If you haven't already, login to it by visiting https://apps.south.fe.pivotal.io
+If you haven't already, login to it by visiting https://apps.run.haas-74.pez.pivotal.io/
 
 Click on the ``Marketplace'' link:
 
