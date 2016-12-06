@@ -12,11 +12,11 @@ image::../../Common/images/lab9screenshot2.png[]
 . Scale out the Hello UI and Server to see the number of endpoints registered increase in the service registry.
 ----
 $ cf scale hello-ui -i 2
-Scaling app hello-ui in org bboe-org / space development as bboe...
+Scaling app hello-ui in org student20-org / space development as student20...
 OK
 
 $cf scale hello-server -i 2
-Scaling app hello-server in org bboe-org / space development as bboe...
+Scaling app hello-server in org student20-org / space development as student20...
 OK
 ----
 
