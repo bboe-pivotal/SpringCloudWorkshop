@@ -152,3 +152,5 @@ Really delete the service spring-music-db?> y
 Deleting service spring-music-db in org oreilly-class / space instructor as mstine@pivotal.io...
 OK
 ----
+
+link:/README.md#course-materials[Course Materials home] | link:/session_01/lab_01/lab_01.adoc[Lab 1 - From Zero to Pushing Your First Application] | link:/session_01/lab_03/lab_03.adoc[Lab 3 - Scaling Applications]
