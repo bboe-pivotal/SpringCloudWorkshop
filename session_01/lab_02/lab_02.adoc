@@ -51,7 +51,7 @@ image::/../../Common/images/PWS_Marketplace.png[]
 From the CLI, let's _create_ a developer instance:
 +
 ----
-$ cf create-service p-mysql 100mb-dev spring-music-db
+$ cf create-service p-mysql 100mb spring-music-db
 Creating service spring-music-db in org oreilly-class / space instructor as mstine@pivotal.io...
 OK
 ----
