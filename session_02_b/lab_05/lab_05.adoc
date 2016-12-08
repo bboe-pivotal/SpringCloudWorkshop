@@ -1,4 +1,4 @@
-= Spring Boot Lab - From Zero to Microservice in Five Minutes
+= Spring Boot - From Zero to Microservice in Five Minutes
 In this lab you'll be creating from scratch a simple RESTful service in a few short minutes using Spring Boot and the Spring Initializr.
 
 == Generate a starter project
