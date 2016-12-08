@@ -48,6 +48,7 @@ $ git fetch --all
   - [Lab 4 - Monitoring Applications](session_01/lab_04/lab_04.adoc)
 
 #### Session 2 [(Slides)](session_02_b/Session_02_B.pdf): _Spring Boot_
+  - [Spring Boot - From Zero to Microservice in Five Minutes](session_02_b/lab_05/lab_05.adoc)
 
 #### Session 3 [(Slides)](session_03/session_03.pdf): _Spring Data on Cloud Foundry_
   - [Lab 5 - Build a Hypermedia-Driven RESTful Web Service with Spring Data REST](session_03/lab_05/lab_05.adoc)
