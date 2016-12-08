@@ -10,8 +10,7 @@ Cloud Native Application Architectures with Spring and Cloud Foundry
 Time | Session
 ---- | -------
 9:00 AM - 10:30 AM | Session 1: _Intro to Pivotal Cloud Foundry_
-10:30 AM - 11:00 AM | _Morning Break_
-11:00 AM - 11:30 AM | Session 2: _Custom Buildpacks_
+10:30 AM - 11:30 AM | Session 2: _Spring Boot_
 11:30 AM - 12:30 PM | Session 3: _Spring Data on Cloud Foundry_
 12:30 PM - 1:30 PM | _Lunch_
 1:30 PM - 2:00 PM | Session 4: _Spring Boot Actuator_
@@ -48,7 +47,7 @@ $ git fetch --all
   - [Lab 3 - Scaling Applications](session_01/lab_03/lab_03.adoc)
   - [Lab 4 - Monitoring Applications](session_01/lab_04/lab_04.adoc)
 
-#### Session 2 [(Slides)](session_02/Session_02.pdf): _Custom Buildpacks_
+#### Session 2 [(Slides)](session_02_b/Session_02_B.pdf): _Spring Boot_
 
 #### Session 3 [(Slides)](session_03/session_03.pdf): _Spring Data on Cloud Foundry_
   - [Lab 5 - Build a Hypermedia-Driven RESTful Web Service with Spring Data REST](session_03/lab_05/lab_05.adoc)
