@@ -136,3 +136,5 @@ Really delete the app hello-world?> y
 Deleting app hello-world in org bboe-org / space development as bboe...
 OK
 ----
+
+link:/README.md#course-materials[Course Materials home] | link:/session_01/lab_04/lab_04.adoc[Lab 4 - Monitoring Applications] | link:/session_03/lab_05/lab_05.adoc[Lab 5 - Build a Hypermedia-Driven RESTful Web Service with Spring Data REST]
