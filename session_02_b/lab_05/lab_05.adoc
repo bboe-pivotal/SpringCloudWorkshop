@@ -6,15 +6,18 @@ In this lab you'll be creating from scratch a simple RESTful service in a few sh
 . Navigate to the Spring Initializr at http://start.spring.io
 +
 <Insert screenshot here>
+
 . Search for and add a Web dependency
 +
 <Insert screenshot here>
+
 . Switch to the full version of Spring Initializr to see a complete listing of configuration options
 <Insert screenshot here>
 . Click "Generate Project" and unzip the project
+
 . Build and run your application
 +
-====
+----
 $ ./mvnw spring-boot:run
 [INFO] Scanning for projects...
 [INFO]
@@ -24,26 +27,8 @@ $ ./mvnw spring-boot:run
 [INFO]
 [INFO] >>> spring-boot-maven-plugin:1.4.2.RELEASE:run (default-cli) > test-compile @ demo >>>
 [INFO]
-[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ demo ---
-[INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] Copying 1 resource
-[INFO] Copying 0 resource
-[INFO]
-[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ demo ---
-[INFO] Changes detected - recompiling the module!
-[INFO] Compiling 1 source file to /Users/bboe/Downloads/demo/target/classes
-[INFO]
-[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ demo ---
-[INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory /Users/bboe/Downloads/demo/src/test/resources
-[INFO]
-[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ demo ---
-[INFO] Changes detected - recompiling the module!
-[INFO] Compiling 1 source file to /Users/bboe/Downloads/demo/target/test-classes
-[INFO]
-[INFO] <<< spring-boot-maven-plugin:1.4.2.RELEASE:run (default-cli) < test-compile @ demo <<<
-[INFO]
-[INFO] --- spring-boot-maven-plugin:1.4.2.RELEASE:run (default-cli) @ demo ---
+
+...
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -53,26 +38,7 @@ $ ./mvnw spring-boot:run
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::        (v1.4.2.RELEASE)
 
-2016-12-08 15:05:07.863  INFO 30080 --- [           main] com.example.DemoApplication              : Starting DemoApplication on Bjorn-Boe-MacBook-Pro.local with PID 30080 (/Users/bboe/Downloads/demo/target/classes started by bboe in /Users/bboe/Downloads/demo)
-2016-12-08 15:05:07.865  INFO 30080 --- [           main] com.example.DemoApplication              : No active profile set, falling back to default profiles: default
-2016-12-08 15:05:07.910  INFO 30080 --- [           main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@26d4f493: startup date [Thu Dec 08 15:05:07 EST 2016]; root of context hierarchy
-2016-12-08 15:05:08.939  INFO 30080 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
-2016-12-08 15:05:08.953  INFO 30080 --- [           main] o.apache.catalina.core.StandardService   : Starting service Tomcat
-2016-12-08 15:05:08.954  INFO 30080 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.6
-2016-12-08 15:05:09.030  INFO 30080 --- [ost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2016-12-08 15:05:09.030  INFO 30080 --- [ost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1123 ms
-2016-12-08 15:05:09.140  INFO 30080 --- [ost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
-2016-12-08 15:05:09.143  INFO 30080 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
-2016-12-08 15:05:09.143  INFO 30080 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
-2016-12-08 15:05:09.143  INFO 30080 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
-2016-12-08 15:05:09.143  INFO 30080 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
-2016-12-08 15:05:09.338  INFO 30080 --- [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@26d4f493: startup date [Thu Dec 08 15:05:07 EST 2016]; root of context hierarchy
-2016-12-08 15:05:09.398  INFO 30080 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
-2016-12-08 15:05:09.398  INFO 30080 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
-2016-12-08 15:05:09.415  INFO 30080 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
-2016-12-08 15:05:09.415  INFO 30080 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
-2016-12-08 15:05:09.439  INFO 30080 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
-2016-12-08 15:05:09.540  INFO 30080 --- [           main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+...
 2016-12-08 15:05:09.597  INFO 30080 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
 2016-12-08 15:05:09.601  INFO 30080 --- [           main] com.example.DemoApplication              : Started DemoApplication in 2.4 seconds (JVM running for 9.305)
-====
+----
