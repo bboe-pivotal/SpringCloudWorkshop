@@ -402,4 +402,4 @@ urls: cities-undeliverable-iatrochemistry.cf.mycloud.com
 $ curl -i cities-undeliverable-iatrochemistry.cf.mycloud.com/cities
 ----
 
-link:/README.md#course-materials[Course Materials home] | link:/session_01/lab_04/lab_04.adoc[Lab 4 - Monitoring Applications] | link:/session_03/lab_06/lab_06.adoc[Lab 6 - Leveraging Spring Cloud Connectors for Service Binding]
+link:/README.md#course-materials[Course Materials home] | link:/session_02_b/lab_05/lab_05.adoc[Spring Boot - From Zero to Microservice in Five Minutes]  | link:/session_03/lab_06/lab_06.adoc[Lab 6 - Leveraging Spring Cloud Connectors for Service Binding]
