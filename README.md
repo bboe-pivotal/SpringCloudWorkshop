@@ -41,6 +41,8 @@ $ git fetch --all
 
 ## Course Materials
 
+[How to run the labs behind a proxy server](proxy-notes.adoc) 
+
 #### Session 1 [(Slides)](session_01/Session_01.pdf): _Intro to Pivotal Cloud Foundry_
   - [Lab 1 - From Zero to Pushing Your First Application](session_01/lab_01/lab_01.adoc)
   - [Lab 2 - Binding to Cloud Foundry Services](session_01/lab_02/lab_02.adoc)
