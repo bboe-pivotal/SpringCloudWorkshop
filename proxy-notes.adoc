@@ -1,4 +1,4 @@
-= Notes on how to run the labs behind a proxy server
+= How to run the labs behind a proxy server
 
 The labs leverage the Cloud Foundry CLI, Gradle and Maven, that all require access to the internet and need to go through a proxy server to get to the public internet.
 This page contains instructions on how to get each of these tools working behind a proxy server.
