@@ -1,0 +1,47 @@
+= Notes on how to run the labs behind a proxy server
+
+The labs leverage the Cloud Foundry CLI, Gradle and Maven, that all require access to the internet and need to go through a proxy server to get to the public internet.
+This page contains instructions on how to get each of these tools working behind a proxy server.
+
+== Cloud Foundry CLI
+The Cloud Foundry CLI only communicates over HTTPS.
+
+- For Mac and Linux, run the following command on the commandline to enable this
++
+----
+$ export https_proxy=http://my.proxyserver.com:8080
+----
+
+- For Windows, run the following command on the commandline to enable this
++
+----
+C:> set https_proxy=http://my.proxyserver.com:8080
+----
+
+See https://docs.cloudfoundry.org/cf-cli/http-proxy.html for more information.
+
+== Gradle
+This information can either be provided over the commandline or in gradle.properties, which can be found in the .gradle directory.
+
+- Do the following to include proxy information on the command-line
+----
+gradlew -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=3128 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=3129
+----
+
+- To set this in application.properties, add the following info
+----
+systemProp.http.proxyHost=www.somehost.org
+systemProp.http.proxyPort=8080
+systemProp.http.proxyUser=userid
+systemProp.http.proxyPassword=password
+systemProp.http.nonProxyHosts=*.nonproxyrepos.com|localhost
+
+systemProp.https.proxyHost=www.somehost.org
+systemProp.https.proxyPort=8080
+systemProp.https.proxyUser=userid
+systemProp.https.proxyPassword=password
+systemProp.http.nonProxyHosts=*.nonproxyrepos.com|localhost
+----
+
+See https://docs.gradle.org/current/userguide/build_environment.html#sec:accessing_the_web_via_a_proxy and http://stackoverflow.com/questions/5991194/gradle-proxy-configuration for more information.
+
