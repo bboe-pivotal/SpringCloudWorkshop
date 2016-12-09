@@ -45,3 +45,9 @@ systemProp.http.nonProxyHosts=*.nonproxyrepos.com|localhost
 
 See https://docs.gradle.org/current/userguide/build_environment.html#sec:accessing_the_web_via_a_proxy and http://stackoverflow.com/questions/5991194/gradle-proxy-configuration for more information.
 
+== Maven
+The easiest way to provide this information is on the command line in the following format:
+
+---
+mvn -DproxySet=true -DproxyHost=ur.proxy.server -DproxyPort=port
+---
