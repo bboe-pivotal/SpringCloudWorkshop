@@ -48,6 +48,6 @@ See https://docs.gradle.org/current/userguide/build_environment.html#sec:accessi
 == Maven
 The easiest way to provide this information is on the command line in the following format:
 
----
+----
 mvn -DproxySet=true -DproxyHost=ur.proxy.server -DproxyPort=port
----
+----
