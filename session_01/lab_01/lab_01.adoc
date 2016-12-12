@@ -4,12 +4,12 @@
 
 . If you haven't already, download the latest release of the Cloud Foundry CLI from https://github.com/cloudfoundry/cli/releases for your operating system and install it.
 
-. Go to the https://drive.google.com/open?id=1imK3lLq8A4cc440RVM1-9zkDu4ClobLJpnHnsBpqmpk[user info spreadsheet] and assign yourself a Pivotal Cloud Foundry user for the workshop.		
+. Sign up for free user at Pivotal Web Services: http://run.pivotal.io		
 
 . From a command prompt, set the API target for the CLI:
 +
 ----
-$ cf api https://api.run.haas-74.pez.pivotal.io --skip-ssl-validation
+$ cf api https://api.run.pivotal.io
 ----
 
 . Login to Pivotal Cloud Foundry:
