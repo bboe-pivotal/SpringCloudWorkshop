@@ -2,8 +2,8 @@
 Cloud Native Application Architectures with Spring and Cloud Foundry
 
 ## Instructors
-- Bjorn Boe, Sr. Platform Architect
-- Nick Sanfratello, Sr. Platform Architect
+- Michael Wright, Southeast Manager, Platform Architecture
+- Chris DeLashmutt, Advisory Platform Architect
 
 ## Agenda
 
