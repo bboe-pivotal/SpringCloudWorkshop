@@ -162,11 +162,11 @@ $ gradlew.bat assemble
 $ java -jar build/libs/cities-0.0.1-SNAPSHOT.jar
 ----
 
-. Access the application using +Firefox+ (Note that for the lab on 2/23, the proxy settings on Internet Explorer prevent accessing localhost, so you must use Firefox). You'll see that the primary endpoint automatically exposes the ability to page, size, and sort the response JSON.
+. Access the application using +Firefox+, or +Chrome+ (we have noticed proxy settings on Internet Explorer prevent accessing localhost for many folks). You'll see that the primary endpoint automatically exposes the ability to page, size, and sort the response JSON.
 +
 So what have you done? Created four small classes and one build file, resulting in a fully-functional REST microservice. The application's +DataSource+ is created automatically by Spring Boot using the in-memory database because no other +DataSource+ was detected in the project.
 +
-Note: By default Firefox will prompt you to download responses.  Its much nicer to view responses directly in the browser.  To do so, search for and add the JSONView plugin to firefox.  Then, got to the extensions page (`ctrl+alt+a`), find the JSONView extension and go to options.  There you can add _Alternate JSON content types_ that should be opened by the extension.  Add `application/hal+json` to this list.  After that, instead of prompting to download, Firefox will display json directly in the browser.
+Note: By default Firefox will prompt you to download responses.  Its much nicer to view responses directly in the browser.  To do so, search for and add the JSONView plugin to FireFox.  Then, got to the extensions page (`ctrl+alt+a`), find the JSONView extension and go to options.  There you can add _Alternate JSON content types_ that should be opened by the extension.  Add `application/hal+json` to this list.  After that, instead of prompting to download, Firefox will display json directly in the browser.
 +
 [source,bash]
 ----
@@ -208,7 +208,7 @@ $ gradlew.bat assemble
 $ java -jar build/libs/cities-0.0.1-SNAPSHOT.jar
 ----
 
-. Access the application again using +firefox+. Notice the appropriate hypermedia is included for +next+, +previous+, and +self+. You can also select pages and page size by utilizing +?size=n&page=n+ on the URL string. Finally, you can sort the data utilizing +?sort=fieldName+.
+. Access the application again using +Firefox+, or +Chrome+. Notice the appropriate hypermedia is included for +next+, +previous+, and +self+. You can also select pages and page size by utilizing +?size=n&page=n+ on the URL string. Finally, you can sort the data utilizing +?sort=fieldName+.
 +
 [source,bash]
 ----
