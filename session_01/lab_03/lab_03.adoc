@@ -182,3 +182,5 @@ image::../../Common/images/autoscale5.png[]
 image::../../Common/images/autoscale6.png[]
 
 . There is a method in the cf-scale-boot application that will cause it to start chewing on CPU.  What you are going to do is access this URL and then switch back to the Apps Manager to view the Events tab, and see the autoscaler adding instances (and eventually retiring them when the load goes back to normal.  Access the load method now by opening `cf-scale-boot` in another browser window, and add `/load` to the URL, then hitting enter.  Don't wait for it to finish, just switch back to the Apps Manager and observe the behavior of `cf-scale-boot`
+
+link:/README.md#course-materials[Course Materials home] | link:/session_01/lab_02/lab_02.adoc[Lab 2- Binding to Cloud Foundry Services] | link:/session_01/lab_04/lab_04.adoc[Lab 4 - Monitoring Applications]

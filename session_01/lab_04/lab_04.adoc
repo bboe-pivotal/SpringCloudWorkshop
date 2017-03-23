@@ -5,6 +5,22 @@ Cloud Foundry provides several built-in mechanisms that allow us to monitor our 
 Additionally, Cloud Foundry actively monitors the health of our application processes and will restart them should they crash.
 In this lab, we'll explore a few of these mechanisms.
 
+== PCF Metrics
+
+PCF Metrics is an application monitoring dashboard that provides up-to-date information on the health of your application.
+
+. Navigate to https://metrics.run.haas-74.pez.pivotal.io/ to see the dashboard.
++
+image::../../Common/images/PCF-Metrics-1.png[]
+
+. Click in the application search bar and select your application to see more details
++
+image::../../Common/images/PCF-Metrics-2.png[]
+
+. Click on the switches on the left hand side to see application events and container metrics as well.
++
+image::../../Common/images/PCF-Metrics-3.png[]
+
 == Events
 
 Cloud Foundry only allows application configuration to be modified via its API.
@@ -314,3 +330,6 @@ Really delete the service cf-scale-boot-logs?> y
 Deleting service cf-scale-boot-logs in org oreilly-class / space instructor as mstine@pivotal.io...
 OK
 ----
+
+link:/README.md#course-materials[Course Materials home] | link:/session_01/lab_03/lab_03.adoc[Lab 3 - Scaling Applications] | link:/session_02_b/lab_05/lab_05.adoc[Spring Boot - From Zero to Microservice in Five Minutes] 
+

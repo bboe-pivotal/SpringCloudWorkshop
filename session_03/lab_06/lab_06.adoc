@@ -18,7 +18,7 @@ From the CLI, let's _create_ a developer MySQL service instance:
 +
 [source,bash]
 ----
-$ cf create-service p-mysql 100mb-dev cities-db
+$ cf create-service p-mysql 100mb cities-db
 Creating service cities-db...
 OK
 ----
@@ -185,3 +185,5 @@ Really delete the service cities-db?> y
 Deleting service cf-scale-boot-logs in org oreilly-class / space instructor as mstine@pivotal.io...
 OK
 ----
+
+link:/README.md#course-materials[Course Materials home] | link:/session_03/lab_05/lab_05.adoc[Lab 5 - Build a Hypermedia-Driven RESTful Web Service with Spring Data REST] | link:/session_04/lab_07/lab_07.adoc[Lab 7 - Introspection, Monitoring, and Metrics using Spring Boot Actuator]

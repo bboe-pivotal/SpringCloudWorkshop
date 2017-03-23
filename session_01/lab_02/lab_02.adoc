@@ -4,7 +4,7 @@
 [abstract]
 --
 The _Spring Music_ application was designed to illustrate the ease with which various types of data services can be bound to and utilized by Spring applications running on Cloud Foundry.
-In this lab, we'll be binding the application to both MySQL and MongoDB databases.
+In this lab, we'll be binding the application to a MySQL database.
 
 Cloud Foundry services are managed through two primary types of operations:
 
@@ -35,7 +35,7 @@ $ cf marketplace
 and you'll get a list of services, their available plans, and descriptions.
 
 The second way is specific to Pivotal Cloud Foundry's Application Manager UI.
-If you haven't already, login to it by visiting https://apps.pcf14.cloud.fe.pivotal.io
+If you haven't already, login to it by visiting https://apps.<the domain your instructor has given you>
 
 Click on the ``Marketplace'' link:
 
@@ -59,7 +59,7 @@ OK
 . Next we'll _bind_ the newly created instance to our `spring-music` application:
 +
 ----
-$ cf bind-service spring-music spring-music-db
+$ cf bs spring-music spring-music-db
 Binding service spring-music-db to app spring-music in org oreilly-class / space instructor as mstine@pivotal.io...
 OK
 TIP: Use 'cf restage' to ensure your env variable changes take effect
@@ -128,7 +128,7 @@ Since we're done using the spring-music application, let's clean up our applicat
 . Delete the `spring-music` application:
 +
 ----
-$ cf delete spring-music
+$ cf d spring-music
 
 Really delete the app spring-music?> y
 Deleting app spring-music in org oreilly-class / space instructor as mstine@pivotal.io...
@@ -138,9 +138,11 @@ OK
 . Delete the `spring-music-db` service:
 +
 ----
-$ cf delete-service spring-music-db
+$ cf ds spring-music-db
 
 Really delete the service spring-music-db?> y
 Deleting service spring-music-db in org oreilly-class / space instructor as mstine@pivotal.io...
 OK
 ----
+
+link:/README.md#course-materials[Course Materials home] | link:/session_01/lab_01/lab_01.adoc[Lab 1 - From Zero to Pushing Your First Application] | link:/session_01/lab_03/lab_03.adoc[Lab 3 - Scaling Applications]

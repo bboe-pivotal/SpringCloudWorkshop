@@ -144,3 +144,5 @@ image::../../Common/images/lab11screenshot1.png[]
 . Start the Hello Server back up again.
 
 . Go back to the Hello UI and see the service eventually comes back up again.
+
+link:/README.md#course-materials[Course Materials home] | link:/session_05/lab_10/lab_10.adoc[Lab 10 - Config Server]
