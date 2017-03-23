@@ -32,12 +32,10 @@ $ git fetch --all
 ```
 
 **Prerequisites**
-- [Cloud Foundry CLI](http://info.pivotal.io/p0R00I0eYJ011dAUCN06lR2)
-- [Apache Maven](http://info.pivotal.io/HI002010A6ZlRJR1NeU00eC)
-- [Gradle](http://info.pivotal.io/j10U0e2NI10Rl06AJCf0R00)
-- [Git Client](http://info.pivotal.io/i1RI0AUe6gN00C010l12J0R)
-- An IDE, like [Spring Tool Suite](http://info.pivotal.io/f00RC0N0lh01eU21IAJ260R)
 - [Java SE Development Kit](http://info.pivotal.io/n0I60i3021AN0JU0le10CRR)
+- [Cloud Foundry CLI](http://info.pivotal.io/p0R00I0eYJ011dAUCN06lR2)
+- [Git Client](http://info.pivotal.io/i1RI0AUe6gN00C010l12J0R)
+- Your favorite Java IDE.  If you don't have one you can try [Spring Tool Suite](http://info.pivotal.io/f00RC0N0lh01eU21IAJ260R)
 
 ## Course Materials
 
