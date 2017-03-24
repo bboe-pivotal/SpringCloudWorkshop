@@ -11,38 +11,7 @@ The service registry is a phone book for your microservices. Each service regist
 
 OK, let's get our microservices talking to each other
 
-. First, we need an instance of the service registry service.
-+
-----
-$cf create-service p-service-registry standard service-registry
-Creating service instance service-registry in org student20-org / space development as student20...
-OK
-----
-+
-. Next, we need to tell Cloud Foundry to bind this service instance to each of our applications.  Open the manifest.yml file and add two `services` sections, one for each application, that references the new service you created.  The result will look like this (but remember, your values for CF_TARGET may be different).
-+
-----
----
-memory: 1GB
-instances: 1
-applications:
-- name: hello-server
-  host: hello-server-${random-word}
-  path: hello-server/build/libs/hello-server-0.0.1-SNAPSHOT.jar
-  services:                #  Add this section
-  - service-registry
-  env:
-    CF_TARGET: https://api.pcf5.cloud.fe.pivotal.io
-- name: hello-ui
-  host: hello-ui-${random-word}
-  path: hello-ui/build/libs/hello-ui-0.0.1-SNAPSHOT.jar
-  services:                #  And add this one
-  - service-registry
-  env:
-    CF_TARGET: https://api.pcf5.cloud.fe.pivotal.io
-----
-+
-. Next, inside of the `hello-server` project, edit the io.pivotal.HelloServerApplication class.  Add the `@EnableDiscoveryClient` annotation, and its import.
+. First, inside of the `hello-server` project, edit the io.pivotal.HelloServerApplication class.  Add the `@EnableDiscoveryClient` annotation, and its import.
 +
 [source,java]
 ----
@@ -132,7 +101,9 @@ $ cd $COURSE_HOME/session_05/lab_08/initial
 .  Build the applications
 +
 ----
-$ gradlew.bat assemble
+$ ./gradlew assemble
+or
+C:\>gradlew.bat assemble
 ----
 +
 .  Push the applications to Cloud Foundry.

@@ -9,41 +9,7 @@ Cloud-native architectures are typically composed of multiple layers of distribu
 
 == Configuring the Circuit Breaker Dashboard
 
-. First, we need an instance of the Circuit Breaker Dashboard service.
-+
-----
-$ cf create-service p-circuit-breaker-dashboard standard circuit-breaker
-Creating service instance config-server in org student20-org / space development as student20...
-OK
-----
-
-. To finish the PCF configuration, add the circuit breaker service to the manifest.yml for the UI microservice, as we have done for the other SCS services in previous labs. Remember to check your values for the CF_TARGET environment variables for both applications.
-+
-----
----
-memory: 1GB
-instances: 1
-applications:
-- name: hello-server
-  host: hello-server-${random-word}
-  path: hello-server/build/libs/hello-server-0.0.1-SNAPSHOT.jar
-  services:
-  - service-registry
-  - config-server
-  env:
-    CF_TARGET: https://api.pcf5.cloud.fe.pivotal.io
-- name: hello-ui
-  host: hello-ui-${random-word}
-  path: hello-ui/build/libs/hello-ui-0.0.1-SNAPSHOT.jar
-  services:
-  - service-registry
-  - config-server
-  - circuit-breaker     #Add this line
-  env:
-    CF_TARGET: https://api.pcf5.cloud.fe.pivotal.io
-----
-+
-. Now let's enable the Circuit Breaker pattern for our UI service.  We want to use a circuit breaker to provide a barrier around failures within the Hello Service.
+. Let's enable the Circuit Breaker pattern for our UI service.  We want to use a circuit breaker to provide a barrier around failures within the Hello Service.
 Start by going to the hello-ui project, and editing the `io.pivotal.helloui.HelloUiApplication` class.  Add the `@EnableCircuitBreaker` annotation.
 +
 [source,java]
@@ -113,7 +79,9 @@ $ cd $COURSE_HOME/session_05/lab_08/initial
 .  Build the applications
 +
 ----
-$ gradlew.bat assemble
+$ ./gradlew assemble
+or
+C:\>gradlew.bat assemble
 ----
 +
 .  Push the applications and tell Cloud Foundry not to start the applications.
