@@ -16,16 +16,6 @@ $ cd $COURSE_HOME/session_03/lab_06/initial/cities
 . At present we're still using the in-memory database. Let's connect to a MySQL database service.
 From the CLI, let's _create_ a developer MySQL service instance.
 
-- If you are running this lab on Pivotal Web Services, use the following command:
-+
-[source,bash]
-----
-$ cf create-service cleardb spark cities-db
-Creating service cities-db...
-OK
-----
-
-- If you are running this lab on your own Pivotal Cloud Foundry or PCF Dev instances, use the following command:
 +
 [source,bash]
 ----
@@ -72,7 +62,7 @@ dependencies {
 }
 ----
 +
-Since we've added new dependencies, if you are using Eclipse/RAD or IntelliJ, you'll need to re-run +gradlew.bat idea+ or +gradlew.bat eclipse+ to have them added to the IDE classpath.
+Since we've added new dependencies, if you are using Eclipse/RAD or IntelliJ, you'll need to re-run +./gradlew idea+ or +./gradlew eclipse+(+gradlew.bat idea+ or +gradlew.bat eclipse+) to have them added to the IDE classpath.
 
 . Next, let's create the package +org.example.cities.config+ and create in that package the class +CloudDataSourceConfig+. Add the following code:
 +
@@ -111,7 +101,9 @@ spring.jpa.hibernate.ddl-auto=create
 +
 [source,bash]
 ----
-$ gradlew.bat assemble
+$ ./gradlew assemble
+or
+C:\>gradlew.bat assemble
 ----
 
 . Re-push the application:
@@ -134,7 +126,15 @@ The application is now running against a MySQL database.
 
 == Customizing the +DataSource+
 
-. You can customize the database connection that Spring Cloud creates with a few lines of code. Change the +dataSource+ method in +CloudDataSourceConfig+ to add some pooling and connection configuration:
+. You can customize the database connection that Spring Cloud creates with a few lines of code. Change the +dataSource+ method in +CloudDataSourceConfig+ to add some pooling and connection configuration.  First add these imports:
++
+[source,java]
+----
+import org.springframework.cloud.service.PooledServiceConnectorConfig;
+import org.springframework.cloud.service.relational.DataSourceConfig;
+----
++
+Then change the dataSource method:
 +
 [source,java]
 ----
@@ -151,19 +151,13 @@ public DataSource dataSource() {
 }
 ----
 +
-Also, add these imports:
-+
-[source,java]
-----
-import org.springframework.cloud.service.PooledServiceConnectorConfig;
-import org.springframework.cloud.service.relational.DataSourceConfig;
-----
-+
 . Build the application:
 +
 [source,bash]
 ----
-$ gradlew.bat assemble
+$ ./gradlew assemble
+or
+C:\>gradlew.bat assemble
 ----
 
 . Re-push the application:

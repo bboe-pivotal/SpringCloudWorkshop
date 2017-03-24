@@ -9,7 +9,7 @@ In this lab, we'll explore a few of these mechanisms.
 
 PCF Metrics is an application monitoring dashboard that provides up-to-date information on the health of your application.
 
-. Navigate to https://metrics.run.haas-74.pez.pivotal.io/ to see the dashboard.
+. Navigate to https://metrics.<your-domain>/ to see the dashboard.
 +
 image::../../Common/images/PCF-Metrics-1.png[]
 

@@ -15,7 +15,7 @@ In this lab, we'll use a Spring Boot CLI app designed to illustrate Cloud Foundr
 $ cd $COURSE_HOME/session_01/lab_03/cf-scale-boot
 ----
 
-. Spring Boot CLI applications do not require a separate build step, so go ahead and push the application:
+. Groovy based Spring Boot CLI applications do not require a separate build step, so go ahead and push the application:
 +
 ----
 $ cf push
@@ -161,7 +161,7 @@ image::../../Common/images/appsmanager3.png[]
 +
 image::../../Common/images/autoscale1.png[]
 
-. Choose the Gold Plan.  This plan examines the state of load on bound applications more frequently.
+. Choose the standard Plan.
 +
 image::../../Common/images/autoscale2.png[]
 
@@ -173,14 +173,14 @@ image::../../Common/images/autoscale3.png[]
 +
 image::../../Common/images/autoscale4.png[]
 
-. You will be asked to _Turn On_ Autoscaling for the `cf-scale-boot` application.  After doing so, configure it with the threshold values shown below - we are setting them very low so that we can observe the autoscaling. (Configure these settings by clicking the wrench icon)
+. Next to the "Instance Limits" header, click the "Edit" link.  Configure the minimum to "2" and the maximum to "3", and click the "Save" button.  Next to the "Scaling Rules" header, click the "Edit" link.  Set the "Scale down if less than" setting to "5", the "Scale up if more than" setting to "8", and click the "Save" button - we are setting them very low so that we can observe the autoscaling. You will need to _Enable_ the Autoscaling for the `cf-scale-boot` application by clicking the sliding switch to the right of the "disabled" label at the top of the panel.
 +
 image::../../Common/images/autoscale5.png[]
 
-. Close the Autoscaler management browser window after making your changes and return to the `cf-scale-boot` application dashboard within the Apps Manager.  Click on the `Events` tab.  
+. Close the Autoscaler management browser window after making your changes and return to the `cf-scale-boot` application dashboard within the Apps Manager.  Click on the `Overview` tab.  
 +
 image::../../Common/images/autoscale6.png[]
 
-. There is a method in the cf-scale-boot application that will cause it to start chewing on CPU.  What you are going to do is access this URL and then switch back to the Apps Manager to view the Events tab, and see the autoscaler adding instances (and eventually retiring them when the load goes back to normal.  Access the load method now by opening `cf-scale-boot` in another browser window, and add `/load` to the URL, then hitting enter.  Don't wait for it to finish, just switch back to the Apps Manager and observe the behavior of `cf-scale-boot`
+. There is a method in the cf-scale-boot application that will cause it to start chewing on CPU.  What you are going to do is access this URL and then switch back to the Apps Manager to view the Overview tab, and see the autoscaler adding instances (and eventually retiring them when the load goes back to normal.  Access the load method now by opening `cf-scale-boot` in another browser window, and add `/load` to the URL, then hitting enter.  Don't wait for it to finish, just switch back to the Apps Manager and observe the behavior of `cf-scale-boot`.  (You may need to try the "/load" request a few times to see the scaling occuring.)
 
 link:/README.md#course-materials[Course Materials home] | link:/session_01/lab_02/lab_02.adoc[Lab 2- Binding to Cloud Foundry Services] | link:/session_01/lab_04/lab_04.adoc[Lab 4 - Monitoring Applications]

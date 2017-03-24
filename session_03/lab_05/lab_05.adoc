@@ -1,7 +1,7 @@
 :compat-mode:
 = Lab 5 - Build a Hypermedia-Driven RESTful Web Service with Spring Data REST
 
-In this lab we'll utilize Spring Boot, Spring Data, and Spring Data REST to create a fully-functional hypermedia-driven RESTful web service. We'll then deploy it to Cloud Foundry (using Pivotal Web Services).
+In this lab we'll utilize Spring Boot, Spring Data, and Spring Data REST to create a fully-functional hypermedia-driven RESTful web service. We'll then deploy it to Cloud Foundry.
 
 NOTE: The completed code for this lab can be found at `$COURSE_HOME/session_03/lab_05/complete/cities`.
 
@@ -13,7 +13,7 @@ NOTE: The completed code for this lab can be found at `$COURSE_HOME/session_03/l
 $ cd $COURSE_HOME/session_03/lab_05/initial/cities
 ----
 
-. Throughout the rest of today's labs, we'll often be writing code.  You can always edit source code files directly in your favorite text editor, but in the real world, you'd want to import these projects into a real development environment like Eclipse/RAD or IntelliJ.  Fortunately, its easy to do this.  You can generate project files for your favorite IDE by running going to the root project directory and running +gradlew.bat eclipse+ or +gradlew.bat idea+. When this command is completed, you can use the import existing project function of your editor, point it at the same directory you ran the gradle command in, and bring in all of the necessary files to edit within the IDE.
+. Throughout the rest of today's labs, we'll often be writing code.  You can always edit source code files directly in your favorite text editor, but in the real world, you'd want to import these projects into a real development environment like Eclipse/RAD or IntelliJ.  Fortunately, its easy to do this.  You can generate project files for your favorite IDE by running going to the root project directory and running +./gradlew eclipse+ or +./gradlew idea+ (+gradlew.bat eclipse+ or +gradlew.bat idea+). When this command is completed, you can use the import existing project function of your editor, point it at the same directory you ran the gradle command in, and bring in all of the necessary files to edit within the IDE.
 +
 So, for the next steps, you can either use a text editor or IDE.
 . Add a runtime dependency on the http://hsqldb.org/[HyperSQL in-memory database] to +build.gradle+:
@@ -152,7 +152,9 @@ public class CitiesApplication {
 +
 [source,bash]
 ----
-$ gradlew.bat assemble
+$ ./gradlew assemble
+or
+C:\>gradlew.bat assemble
 ----
 
 . Run the application:
@@ -162,7 +164,7 @@ $ gradlew.bat assemble
 $ java -jar build/libs/cities-0.0.1-SNAPSHOT.jar
 ----
 
-. Access the application using +Firefox+, or +Chrome+ (we have noticed proxy settings on Internet Explorer prevent accessing localhost for many folks). You'll see that the primary endpoint automatically exposes the ability to page, size, and sort the response JSON.
+. Access the application at http://localhost:8080 using +Firefox+, or +Chrome+ (we have noticed proxy settings on Internet Explorer prevent accessing localhost for many folks). You'll see that the primary endpoint automatically exposes the ability to page, size, and sort the response JSON.
 +
 So what have you done? Created four small classes and one build file, resulting in a fully-functional REST microservice. The application's +DataSource+ is created automatically by Spring Boot using the in-memory database because no other +DataSource+ was detected in the project.
 +
@@ -198,7 +200,9 @@ Next we'll import some data.
 +
 [source,bash]
 ----
-$ gradlew.bat assemble
+$ ./gradlew assemble
+or
+C:\>gradlew.bat assemble
 ----
 
 . Run the application:
@@ -277,7 +281,17 @@ Next we'll add searching capabilities.
 
 == Adding Search
 
-. Let's add some additional finder methods to +CityRepository+:
+. Let's add some additional finder methods to +CityRepository+.  First add these imports:
++
+[source,java]
+----
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
+----
+. Next, add the following method definitions:
 +
 [source,java]
 ----
@@ -293,22 +307,14 @@ Page<City> findByStateCodeIgnoreCase(@Param("q") String stateCode, Pageable page
 @RestResource(path = "postalCode", rel = "postalCode")
 Page<City> findByPostalCode(@Param("q") String postalCode, Pageable pageable);
 ----
-. Also, add these imports:
-+
-[source,java]
-----
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
-----
 
 . Build the application:
 +
 [source,bash]
 ----
-$ gradlew.bat assemble
+$ ./gradlew assemble
+or
+C:\>gradlew.bat assemble
 ----
 
 . Run the application:
@@ -325,22 +331,30 @@ $ java -jar build/libs/cities-0.0.1-SNAPSHOT.jar
 localhost:8080/cities
 
 {
+  _embedded : {
+    //content omitted
+  },
   "_links" : {
-    "next" : {
-      "href" : "http://localhost:8080/cities?page=1&size=20"
+    first: {
+      href: "http://localhost:8080/cities?page=0&size=20"
     },
-    "self" : {
-      "href" : "http://localhost:8080/cities{?page,size,sort}",
-      "templated" : true
+    self: {
+      href: "http://localhost:8080/cities"
     },
-    "search" : {
-      "href" : "http://localhost:8080/cities/search"
-    }
+    next: {
+      href: "http://localhost:8080/cities?page=1&size=20"
+    },
+    last: {
+      href: "http://localhost:8080/cities?page=49&size=20"
+    },
+    profile: {
+      href: "http://localhost:8080/profile/cities"
+    },
 },
 // (Remainder omitted...)
 ----
 
-. Access the new +search+ endpoint using +curl+:
+. Access the new +search+ endpoint:
 +
 [source,bash]
 ----

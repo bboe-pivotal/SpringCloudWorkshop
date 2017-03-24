@@ -24,7 +24,9 @@ and then refresh the project inside of eclipse.
 . Build the application:
 +
 ----
-$ gradlew.bat assemble
+$ ./gradlew assemble
+or
+C:\>gradlew.bat assemble
 ----
 
 . Run the application:
@@ -88,7 +90,9 @@ This demo health indicator will randomize the health check.
 . Build the application:
 +
 ----
-$ gradlew.bat assemble
+$ ./gradlew assemble
+or
+C:\>gradlew.bat assemble
 ----
 
 . Run the application:
@@ -180,7 +184,9 @@ We've added the `RestController` annotation to mark this class as one that will 
 . Build the application:
 +
 ----
-$ gradlew.bat assemble
+$ ./gradlew assemble
+or
+C:\>gradlew.bat assemble
 ----
 
 . Run the application:

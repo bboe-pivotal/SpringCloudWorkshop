@@ -35,7 +35,7 @@ $ cf marketplace
 and you'll get a list of services, their available plans, and descriptions.
 
 The second way is specific to Pivotal Cloud Foundry's Application Manager UI.
-If you haven't already, login to it by visiting https://apps.<the domain your instructor has given you>
+If you haven't already, login to it by visiting https://apps.<your-domain>
 
 Click on the ``Marketplace'' link:
 
@@ -51,7 +51,7 @@ image::/../../Common/images/PWS_Marketplace.png[]
 From the CLI, let's _create_ a developer instance:
 +
 ----
-$ cf create-service p-mysql 100mb-dev spring-music-db
+$ cf create-service p-mysql 100mb spring-music-db
 Creating service spring-music-db in org oreilly-class / space instructor as mstine@pivotal.io...
 OK
 ----
@@ -65,8 +65,7 @@ OK
 TIP: Use 'cf restage' to ensure your env variable changes take effect
 ----
 
-. Notice the admonition to `Use 'cf restage' to ensure your env variable changes take effect`.
-Let's take a look at the environment variables for our application to see what's been done. We can do this by typing:
+. Notice the admonition to `Use 'cf restage' to ensure your env variable changes take effect`.  We'll skip that step for the moment.  Now, let's take a look at the environment variables for our application to see what's been done.  We can do this by typing:
 +
 ----
 $ cf env spring-music
