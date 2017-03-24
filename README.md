@@ -26,7 +26,7 @@ The overwhelming majority of our time will be spent engaging with the technology
 Start by downloading the course materials.  This can be accomplished either through the GitHub website or if you have Git installed, use the following commands:
 
 ```
-$ git clone https://github.com/bboe-pivotal/SpringCloudWorkshop
+$ git clone https://github.com/cdelashmutt-pivotal/SpringCloudWorkshop
 $ cd SpringCloudWorkshop/
 $ git fetch --all
 ```

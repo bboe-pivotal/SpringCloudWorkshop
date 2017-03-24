@@ -13,7 +13,7 @@ In this lab, we'll deploy a couple of really simple microservices. The first is 
 . Create the services the demo application depends on, first start with an instance of the config service.
 +
 ----
-$cf create-service p-config-server standard config-server -c '{"git": { "uri": "https://github.com/bboe-pivotal/hello-world-config-repo", "searchPaths": "configuration" } }'
+$cf create-service p-config-server standard config-server -c '{"git": { "uri": "https://github.com/bboe-pivotal/hello-world-config-repo" } }'
 Creating service instance config-server in org student20-org / space development as student20...
 OK
 ----
@@ -52,7 +52,7 @@ service-registry   p-service-registry            standard                create 
 . Change to the directory that contains hello-ui and hello-server components.
 +
 ----
-$ cd $COURSE_HOME/session_05/lab_08/hello-world
+$ cd $COURSE_HOME/session_05/lab_08/initial/hello-world
 ----
 
 . Open the manifest.yml file.  Notice the application names and the service bindings.
