@@ -1,3 +1,0 @@
-This Lab takes you through implementing OAuth2 with an AngularJS UI, SPring Boot backend and leveraging PCF SSO Service
-
-The Lab is an extension/adaptation of Dave Syer's spring.io tutorial at https://spring.io/guides/tutorials/spring-security-and-angular-js/

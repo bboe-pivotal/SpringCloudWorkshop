@@ -2,6 +2,7 @@
 = Lab 8 - Binding to Spring Cloud Services
 
 [abstract]
+In this lab, we'll deploy a couple of really simple microservices. The first is a RESTful API that has the business logic needed to say Hello to people. The second is a UI that finds out who you are and then says Hello to you.
 --
 
 --
@@ -12,7 +13,7 @@
 . Create the services the demo application depends on, first start with an instance of the config service.
 +
 ----
-$cf create-service p-config-server standard config-server -c '{"git": { "uri": "https://github.com/bboe-pivotal/hello-world-config-repo", "searchPaths": "configuration" } }'
+$cf create-service p-config-server standard config-server -c '{"git": { "uri": "https://github.com/bboe-pivotal/hello-world-config-repo" } }'
 Creating service instance config-server in org student20-org / space development as student20...
 OK
 ----
@@ -51,7 +52,7 @@ service-registry   p-service-registry            standard                create 
 . Change to the directory that contains hello-ui and hello-server components.
 +
 ----
-$ cd $COURSE_HOME/session_05/lab_08/hello-world
+$ cd $COURSE_HOME/session_05/lab_08/initial/hello-world
 ----
 
 . Open the manifest.yml file.  Notice the application names and the service bindings.
@@ -79,33 +80,9 @@ applications:
 .  Build the applications
 +
 ----
-$./mvnw package
-[INFO] Scanning for projects...
-[INFO] ------------------------------------------------------------------------
-[INFO] Reactor Build Order:
-[INFO]
-[INFO] hello-server
-[INFO] hello-ui
-[INFO] Hello World Cloud Native Demo!
-
-...
-
-[INFO] ------------------------------------------------------------------------
-[INFO] Building Hello World Cloud Native Demo! 0.0.1-SNAPSHOT
-[INFO] ------------------------------------------------------------------------
-[INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary:
-[INFO]
-[INFO] hello-server ....................................... SUCCESS [  5.342 s]
-[INFO] hello-ui ........................................... SUCCESS [  5.206 s]
-[INFO] Hello World Cloud Native Demo! ..................... SUCCESS [  0.001 s]
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 10.940 s
-[INFO] Finished at: 2015-12-09T00:20:31-05:00
-[INFO] Final Memory: 49M/418M
-[INFO] ------------------------------------------------------------------------
+$ ./gradlew assemble
+or
+C:\>gradlew.bat assemble
 ----
 .  Push the applications and tell Cloud Foundry not to start the applications quite yet
 +
@@ -161,11 +138,11 @@ $cf api
 API endpoint: https://api.mypcfdeployemnt.mycompany.com (API version: 2.43.0)
 ----
 
-. Enable Spring Cloud Services to add the certificate automatically by setting the CF_TARGET environment variable on the hello-server and hello-ui applications to the API endpoint of your Elastic Runtime instance. First do this for the hello-server application.
+. Enable Spring Cloud Services to add the certificate automatically by setting the TRUST_CERTS environment variable on the hello-server and hello-ui applications to the API endpoint of your Elastic Runtime instance. First do this for the hello-server application.
 +
 ----
-$cf set-env hello-server CF_TARGET https://api.mypcfdeployemnt.mycompany.com
-Setting env variable 'CF_TARGET' to 'https://api.mypcfdeployemnt.mycompany.com' for app hello-server in org student20-org / space development as student20...
+$cf set-env hello-server TRUST_CERTS api.mypcfdeployemnt.mycompany.com
+Setting env variable 'TRUST_CERTS' to 'api.mypcfdeployemnt.mycompany.com' for app hello-server in org student20-org / space development as student20...
 OK
 TIP: Use 'cf restage' to ensure your env variable changes take effect
 ----
@@ -173,8 +150,8 @@ TIP: Use 'cf restage' to ensure your env variable changes take effect
 . Then repeat for the hello-ui application
 +
 ----
-$cf set-env hello-ui CF_TARGET https://api.mypcfdeployemnt.mycompany.com
-Setting env variable 'CF_TARGET' to 'https://api.mypcfdeployemnt.mycompany.com' for app hello-ui in org student20-org / space development as student20...
+$cf set-env hello-ui TRUST_CERTS api.mypcfdeployemnt.mycompany.com
+Setting env variable 'TRUST_CERTS' to 'api.mypcfdeployemnt.mycompany.com' for app hello-ui in org student20-org / space development as student20...
 OK
 TIP: Use 'cf restage' to ensure your env variable changes take effect
 ----

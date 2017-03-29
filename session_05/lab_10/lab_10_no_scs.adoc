@@ -1,0 +1,148 @@
+:compat-mode:
+= Lab 10 - Using the Config Server
+
+[abstract]
+Here we continue using the same code, and extend it to use Spring Cloud Config.  Spring Cloud Config provides server and client-side support for externalized configuration in a distributed system. With the Config Server you have a central place to manage external properties for applications across all environments.
+--
+
+--
+
+== Building and Pushing the Config Server
+
+. First, build hello-config-server app.
++
+----
+$ cd $COURSE_HOME/session_05/lab_10/hello-config-server
+$ ./gradlew build
+:compileJava UP-TO-DATE
+:processResources UP-TO-DATE
+:classes UP-TO-DATE
+:findMainClass
+:jar
+:bootRepackage
+:assemble
+:compileTestJava UP-TO-DATE
+:processTestResources UP-TO-DATE
+:testClasses UP-TO-DATE
+:test UP-TO-DATE
+:check UP-TO-DATE
+:build
+
+BUILD SUCCESSFUL
+
+Total time: 9.929 secs
+$ 
+----
+. Now we need to push the hello-config-server app to Cloud Foundry
++
+----
+$ cf push
+Using manifest file /Users/cdelashmutt/git/SpringCloudWorkshop/session_05/lab_10/hello-config-server/manifest.yml
+
+Creating app config-server in org system / space mssql-broker as instructor...
+OK
+
+Creating route config-server-unshriven-hypopotassemia.pcf12.cloud.fe.pivotal.io...
+OK
+
+Binding config-server-unshriven-hypopotassemia.pcf12.cloud.fe.pivotal.io to config-server...
+OK
+
+Uploading config-server...
+
+...
+
+requested state: started
+instances: 1/1
+usage: 384M x 1 instances
+urls: config-server-unshriven-hypopotassemia.pcf12.cloud.fe.pivotal.io
+last uploaded: Tue Mar 15 04:07:26 UTC 2016
+stack: cflinuxfs2
+buildpack: java-buildpack=v3.5.1-offline-http://github.com/pivotal-cf/pcf-java-buildpack.git#d6c19f8 java-main open-jdk-like-jre=1.8.0_65 open-jdk-like-memory-calculator=2.0.1_RELEASE spring-auto-reconfiguration=1.10.0_RELEASE
+
+     state     since                    cpu    memory         disk         details   
+#0   running   2016-03-15 12:08:27 AM   0.0%   692K of 384M   1.3M of 1G      
+$ 
+----
+. Notice in your output of the push of the config server, it was bound to a random host name to prevent collisions between students.  We need to now create a user provided service for the config server.
++
+. Note the random host name and use the text below as a guide.  You will need to modify the uri component to match your config server app url.
++
+----
+$ cf cups config-server -p "{\"uri\":\"http://config-server-unshriven-hypopotassemia.pcf12.cloud.fe.pivotal.io\"}"
+Creating user provided service config-server in org cdelashmutt-org / space development as cdelashmutt@pivotal.io...
+OK
+
+$
+----
+
+. Ordinarily, you would create a config repository for your application.  We have already pointed the config server project at "https://github.com/jrolfe-pivotal/hello-world-config-repo".  It is left as an exercise for the student to find out where this configuration is specified for the hello-config-server project.
++
+. Next, we need to tell Cloud Foundry to bind this service instance to each of our applications.  Open the manifest.yml file and add the config-server service you created to each application.  The result will look something like this (but remember, your values for CF_TARGET may be different):
++
+----
+---
+memory: 1GB
+instances: 1
+applications:
+- name: hello-server
+  host: hello-server-${random-word}
+  path: hello-server/build/libs/hello-server-0.0.1-SNAPSHOT.jar
+  services:
+  - service-registry
+  - config-server              # Add the config server here, and below as well
+- name: hello-ui
+  host: hello-ui-${random-word}
+  path: hello-ui/build/libs/hello-ui-0.0.1-SNAPSHOT.jar
+  services:
+  - service-registry
+  - config-server               # Here too
+----
++
+. Now that everything is set up, let's use the config server. Inside of the `hello-server` project, edit the io.pivotal.HelloController class.  The original version hard codes its greeting member variable.  Instead, lets dynamically bind the greeting from our config.  Use the `@Value` annotation to do this:
++
+[source,java]
+----
+package io.pivotal;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+
+    @Value("${greeting}")   // <--- Add this annotation
+    String greeting;        // <--- Remove the assignment
+
+    @RequestMapping("/hello")
+    public String sayHello(@RequestParam(value="name", defaultValue="World") String toWho) {
+        String result = String.format(greeting, toWho);
+        System.out.println(result);
+        return result;
+    }
+}
+----
+
+== Build and Push the applications
+
+. Change to the directory that contains hello-ui and hello-server components.
++
+----
+$ cd $COURSE_HOME/session_05/lab_08/initial
+----
++
+.  Build the applications
++
+----
+$ gradlew.bat assemble
+----
++
+.  Push the applications and tell Cloud Foundry not to start the applications.
++
+----
+$cf push
+----
++
+. Verify that the applications is now using the Config Server by visiting the URL for the hello-ui application and testing it out.  You should see the Greeting is now different instead of just "Hello"

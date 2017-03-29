@@ -1,0 +1,51 @@
+buildscript {
+    ext {
+        springBootVersion = '1.2.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'hello-server'
+    version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+eclipse {
+    classpath {
+         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.12'
+}
+
+dependencies {
+    compile group: 'io.pivotal.spring.cloud', name: 'spring-cloud-services-starter-config-client', version:'1.0.1.RELEASE'
+    compile group: 'io.pivotal.spring.cloud', name: 'spring-cloud-services-starter-service-registry', version:'1.0.1.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'1.2.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version:'1.2.4.RELEASE'
+    compile group: 'io.pivotal.spring.cloud', name: 'spring-cloud-services-cloudfoundry-connector', version:'1.0.0.RELEASE'
+    compile group: 'io.pivotal.spring.cloud', name: 'spring-cloud-services-spring-connector', version:'1.0.0.RELEASE'
+    compile group: 'io.pivotal.spring.cloud', name: 'cloudfoundry-certificate-truster', version:'1.0.1.RELEASE'
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'1.2.4.RELEASE') {
+exclude(module: 'commons-logging')
+    }
+}

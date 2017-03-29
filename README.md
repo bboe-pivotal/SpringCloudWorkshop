@@ -2,8 +2,8 @@
 Cloud Native Application Architectures with Spring and Cloud Foundry
 
 ## Instructors
-- Bjorn Boe, Sr. Platform Architect
-- Nick Sanfratello, Sr. Platform Architect
+- Michael Wright, Southeast Manager, Platform Architecture
+- Chris DeLashmutt, Advisory Platform Architect
 
 ## Agenda
 
@@ -26,18 +26,16 @@ The overwhelming majority of our time will be spent engaging with the technology
 Start by downloading the course materials.  This can be accomplished either through the GitHub website or if you have Git installed, use the following commands:
 
 ```
-$ git clone https://github.com/bboe-pivotal/SpringCloudWorkshop
+$ git clone https://github.com/cdelashmutt-pivotal/SpringCloudWorkshop
 $ cd SpringCloudWorkshop/
 $ git fetch --all
 ```
 
 **Prerequisites**
-- [Cloud Foundry CLI](http://info.pivotal.io/p0R00I0eYJ011dAUCN06lR2)
-- [Apache Maven](http://info.pivotal.io/HI002010A6ZlRJR1NeU00eC)
-- [Gradle](http://info.pivotal.io/j10U0e2NI10Rl06AJCf0R00)
-- [Git Client](http://info.pivotal.io/i1RI0AUe6gN00C010l12J0R)
-- An IDE, like [Spring Tool Suite](http://info.pivotal.io/f00RC0N0lh01eU21IAJ260R)
 - [Java SE Development Kit](http://info.pivotal.io/n0I60i3021AN0JU0le10CRR)
+- [Cloud Foundry CLI](http://info.pivotal.io/p0R00I0eYJ011dAUCN06lR2)
+- [Git Client](http://info.pivotal.io/i1RI0AUe6gN00C010l12J0R)
+- Your favorite Java IDE.  If you don't have one you can try [Spring Tool Suite](http://info.pivotal.io/f00RC0N0lh01eU21IAJ260R)
 
 ## Course Materials
 

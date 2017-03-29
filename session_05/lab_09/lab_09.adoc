@@ -1,10 +1,125 @@
 :compat-mode:
 = Lab 9 - Exploring the Service Registry
 
-. Open the Application Manager console in your browser.  Go to the org and space where you created the service instances and scroll down until you see the entry for the Service Registry.
+[abstract]
+The service registry is a phone book for your microservices. Each service registers itself with the service registry and tells the registry where it lives (host, port, node name) and perhaps other service-specific metadata - things that other services can use to make informed decisions about it.  In this lab, we'll use the Service Registry to bind our two lonely microservices together.
+--
+
+--
+
+== Configuring the Service Registry
+
+OK, let's get our microservices talking to each other
+
+. First, inside of the `hello-server` project, edit the io.pivotal.HelloServerApplication class.  Add the `@EnableDiscoveryClient` annotation, and its import.
++
+[source,java]
+----
+package io.pivotal;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;  // <--- Add this
+
+@SpringBootApplication
+@EnableDiscoveryClient  // <---- Add this
+public class HelloServerApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(HelloServerApplication.class, args);
+    }
+}
+----
++
+. Repeat this change for the `hello-ui` project, editing the io.pivotal.helloui.HelloUiApplication class
++
+[source,java]
+----
+package io.pivotal.helloui;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;  // <--- Add this
+
+@SpringBootApplication
+@EnableDiscoveryClient  // <--- Add this
+public class HelloUiApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(HelloUiApplication.class, args);
+    }
+}
+----
+. Now, you can easily talk to the hello-server from the hello-ui using logical bindings.  Let's try it.  In the hello-ui project, open up `io.pivotal.helloui.controller.SayHelloCommand` and refactor it to look like this:
++
+[source,java]
+----
+package io.pivotal.helloui.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;  // <--- Add this
+import org.springframework.cloud.client.loadbalancer.LoadBalanced; // <--- Add this
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;  // <--- Add this
+
+@Component
+public class SayHelloCommand {
+
+	@Autowired                      //
+	@LoadBalanced                   //   <--- Add these lines
+	RestTemplate rt;                //
+
+    public String sayHello(String toWho) throws Exception {
+        try{
+        	return rt.getForObject("http://hello-world-server/hello?name={name}", String.class, toWho);  // <--- Change this
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+}
+----
++
+Notice a couple of things here.  First, we can access the hello-world-server using a logical name instead of
+a true DNS'able host.  This means that as this thing moves around, or as this service is deployed into different
+environments, we stay agnostic to its location, and thereby resilient to change.
++
+Notice also the `@LoadBalanced` annotation on our `restTemplate.` This means that Spring Cloud Services will automatically
+load balance across multiple instances of the hello-world-server service.
++
+Oh yeah, and remember back when we gave each of these microservices a name inside of bootstrap.yml?  That's how that
+microservice gets registered into the Service Registry, and this becomes the logical name that dependencies use to
+interact with it.
+
+== Build and Push the applications
+
+. Make sure everything is saved and then change to the directory that contains hello-ui and hello-server components.
++
+----
+$ cd $COURSE_HOME/session_05/lab_08/initial
+----
++
+.  Build the applications
++
+----
+$ ./gradlew assemble
+or
+C:\>gradlew.bat assemble
+----
++
+.  Push the applications to Cloud Foundry.
++
+----
+$cf push
+----
++
+. Verify that the applications started by visiting the URL for the hello-ui application and testing it out.
++
+image::/../../Common/images/lab8screenshot4.png[]
++
+. Now, let's take a quick look inside the Service Registry.  Open the Application Manager console in your browser.  Go to the org and space where you created the service instances and scroll down until you see the entry for the Service Registry.
 +
 image::../../Common/images/lab9screenshot1.png[]
-
++
 . Click the "Manage" link under the service registry. Notice that both the server and UI apps have registered themselves. Explore the dashboard.
 +
 image::../../Common/images/lab9screenshot2.png[]

@@ -35,7 +35,7 @@ $ cf marketplace
 and you'll get a list of services, their available plans, and descriptions.
 
 The second way is specific to Pivotal Cloud Foundry's Application Manager UI.
-If you haven't already, login to it by visiting https://apps.run.haas-74.pez.pivotal.io/
+If you haven't already, login to it by visiting https://apps.<your-domain>
 
 Click on the ``Marketplace'' link:
 
@@ -51,7 +51,7 @@ image::/../../Common/images/PWS_Marketplace.png[]
 From the CLI, let's _create_ a developer instance:
 +
 ----
-$ cf create-service cleardb spark spring-music-db
+$ cf create-service p-mysql 100mb spring-music-db
 Creating service spring-music-db in org oreilly-class / space instructor as mstine@pivotal.io...
 OK
 ----
@@ -65,8 +65,7 @@ OK
 TIP: Use 'cf restage' to ensure your env variable changes take effect
 ----
 
-. Notice the admonition to `Use 'cf restage' to ensure your env variable changes take effect`.
-Let's take a look at the environment variables for our application to see what's been done. We can do this by typing:
+. Notice the admonition to `Use 'cf restage' to ensure your env variable changes take effect`.  We'll skip that step for the moment.  Now, let's take a look at the environment variables for our application to see what's been done.  We can do this by typing:
 +
 ----
 $ cf env spring-music
@@ -118,6 +117,8 @@ Once the application is running again, revisit or refresh the browser tab where 
 image::/../../Common/images/Spring_Music_PGSQL.png[]
 +
 As you can see from the information dialog, the application is now utilizing a MySQL database via the `spring-music-db` service.
++
+Note that you can do all of this from the Application Manager UI as well, by going to the Marketplace mentioned above, selecting your desired service, creating an instance of it, and binding it to your spring-music application.
 
 == Clean Up
 

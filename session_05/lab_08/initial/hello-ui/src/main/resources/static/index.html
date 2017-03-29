@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>Hello World!</title>
+	<script src="jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<script>
+	var requestIdCounter = 0;
+	var lastRecievedId = -1;
+
+	function sayHello() {
+		var toWho = document.getElementById('sayHelloTo').value;
+		var submiturl="hello?name="+encodeURIComponent(toWho)+"&id="+requestIdCounter++;
+		$.ajax({
+	        url: submiturl
+	    }).then(function(data) {
+			if(data.id > lastRecievedId) {
+				lastRecievedId = data.id;
+				document.getElementById("result").innerHTML=data.greeting;
+			}
+	    });
+	}
+</script>
+
+
+<h1>Hello World!</h1>
+Say hello to:
+<input type="text" name="sayHelloTo" id="sayHelloTo" onkeyup="sayHello()">
+<h2>Result</h2>
+<div id="result">(result)</div>
+</body>
+</html>

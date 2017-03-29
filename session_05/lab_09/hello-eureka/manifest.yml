@@ -1,0 +1,7 @@
+---
+memory: 384M
+instances: 1
+applications:
+- name: service-registry
+  host: service-registry-${random-word}
+  path: build/libs/hello-eureka.jar

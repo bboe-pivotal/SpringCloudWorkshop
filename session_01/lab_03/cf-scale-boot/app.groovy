@@ -41,6 +41,18 @@ class WebApplication implements CommandLineRunner {
         log.fatal("KILL SWITCH ACTIVATED!")
         System.exit(1)
     }
+    
+    @RequestMapping("load")
+    String load(Map<String,Object> model, HttpServletRequest request) {
+        def str = ""
+       	for (int i=0; i < 50000; i++) {
+	  str = str + i
+ 	  str = str.reverse()
+	}
+	home(model, request)
+	model['requestsServed'] = "massive load"
+	return "index"
+    }
 
 	@Override
     void run(String... args) {
